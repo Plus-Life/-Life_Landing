@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>+Life — Personal Health & Wellbeing OS</title>
+<title>+Life — операционная система здоровья и самочувствия</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap">
@@ -270,6 +270,36 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
   color:var(--tx2);
 }
 .nav-links a:hover{color:var(--tx)}
+.lang-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--tx2);transition:color .25s var(--ease);
+}
+.lang-btn:hover{color:var(--tx)}
+.lang-btn svg{width:13px;height:13px}
+
+/* ============================================================
+   DOCUMENTS OVERLAY
+   ============================================================ */
+.legal{
+  position:fixed;inset:0;z-index:120;
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  background:rgba(9,9,11,0.82);backdrop-filter:blur(6px);
+}
+.legal[hidden]{display:none}
+.legal-box{
+  width:100%;max-width:520px;max-height:86vh;overflow-y:auto;
+  background:var(--ink2);border:1px solid rgba(255,255,255,0.1);border-radius:14px;
+  padding:28px 30px 30px;
+}
+.legal-head{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:22px}
+.legal-x{font-family:var(--fm);font-size:13px;color:var(--tx3);line-height:1;padding:4px;transition:color .25s var(--ease)}
+.legal-x:hover{color:var(--tx)}
+.legal-box h4{font-family:var(--fs);font-weight:500;font-size:14px;color:var(--tx);margin-top:20px}
+.legal-box h4:first-of-type{margin-top:0}
+.legal-box p{font-size:13px;line-height:1.7;color:var(--tx2);margin-top:6px}
+.legal-link{display:inline-block;margin-top:14px;font-family:var(--fm);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--gr)}
+.legal-link:hover{opacity:.8}
 
 /* ============================================================
    §8.2 HERO
@@ -915,6 +945,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
   transition:opacity .25s var(--ease), transform .25s var(--ease);
 }
 .store-badge:hover{opacity:.88;transform:translateY(-2px)}
+.store-badge.soon{cursor:default}
+.store-badge.soon:hover{opacity:1;transform:none}
 .store-badge .ico{width:22px;height:22px;color:var(--tx)}
 .store-badge .col{display:flex;flex-direction:column;text-align:left;line-height:1.1}
 .store-badge .col .a{font-family:var(--fm);font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--tx2)}
@@ -946,7 +978,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
      §8.1 NAV
      ============================================================ -->
 <nav class="nav" id="nav">
-  <a class="brand" href="#" aria-label="+Life">
+  <a class="brand" href="#hero" aria-label="+Life">
     <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
       <defs>
         <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
@@ -971,10 +1003,14 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
     <span class="brand-word">Life</span>
   </a>
   <div class="nav-links">
-    <a href="#">Platform</a>
-    <a href="#">Data sources</a>
-    <a href="#">Pricing</a>
-    <a class="btn btn-nav" href="https://health-coach-theta.vercel.app" target="_blank" rel="noopener noreferrer">Get early access</a>
+    <a href="#pillars" data-en="Platform">Платформа</a>
+    <a href="#ehr" data-en="Data sources">Источники данных</a>
+    <a href="#cta" data-en="Early access">Ранний доступ</a>
+    <button class="lang-btn" id="langToggle" type="button" aria-label="Переключить на English" title="Переключить на English">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.7 2.6 15.3 0 18"/><path d="M12 3c-2.6 2.7-2.6 15.3 0 18"/></svg>
+      <span class="lang-code" id="langCode">RU</span>
+    </button>
+    <a class="btn btn-nav" href="https://health-coach-theta.vercel.app" target="_blank" rel="noopener noreferrer" data-en="Get early access">Получить ранний доступ</a>
   </div>
 </nav>
 
@@ -986,20 +1022,20 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
   <div class="hero-orb hero-orb-b" aria-hidden="true"></div>
   <div class="hero-grid">
     <div>
-      <div class="kicker sr left short">Personal Health &amp; Wellbeing OS</div>
-      <h1 class="disp h1 sr left d1">Your body<br>runs on <em>data</em>.<br>Now so do <em>you</em>.</h1>
-      <p class="lead hero-lead sr left d2">+Life is a single operating system for your health. It ingests your medical records, biometrics, nutrition, movement and genome, and turns them into one continuously updating picture — and one set of next steps.</p>
+      <div class="kicker sr left short" data-en="Personal Health &amp;amp; Wellbeing OS">Операционная система здоровья и самочувствия</div>
+      <h1 class="disp h1 sr left d1" data-en="Your body&lt;br&gt;runs on &lt;em&gt;data&lt;/em&gt;.&lt;br&gt;Now so do &lt;em&gt;you&lt;/em&gt;.">Ваше тело<br>работает на <em>данных</em>.<br>Теперь и <em>вы</em>.</h1>
+      <p class="lead hero-lead sr left d2" data-en="+Life is a single operating system for your health. It ingests your medical records, biometrics, nutrition, movement and genome, and turns them into one continuously updating picture — and one set of next steps.">+Life — единая операционная система для вашего здоровья. Она собирает медицинские записи, биометрию, питание, активность и геном и превращает их в одну непрерывно обновляемую картину — и один набор следующих шагов.</p>
       <div class="hero-cta sr left d3">
-        <a class="btn btn-pri" href="https://health-coach-theta.vercel.app" target="_blank" rel="noopener noreferrer">Start for free →</a>
-        <a class="btn btn-ghost" href="#">Watch demo</a>
+        <a class="btn btn-pri" href="https://health-coach-theta.vercel.app" target="_blank" rel="noopener noreferrer" data-en="Start for free →">Начать бесплатно →</a>
+        <a class="btn btn-ghost" href="#features" data-en="See how it works">Как это работает</a>
       </div>
     </div>
 
     <!-- DASHBOARD MOCK -->
-    <div class="dash sr right d2" aria-label="Your Health OS dashboard preview">
+    <div class="dash sr right d2" aria-label="Предпросмотр панели вашей ОС здоровья" data-en-aria-label="Your Health OS dashboard preview">
       <div class="dash-head">
-        <div class="dash-title">Your Health OS · Live</div>
-        <div class="dash-status"><span class="live-dot" aria-hidden="true"></span>Synced</div>
+        <div class="dash-title" data-en="Your Health OS · demo">Ваша ОС здоровья · демо</div>
+        <div class="dash-status" data-en="&lt;span class=&quot;live-dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Synced"><span class="live-dot" aria-hidden="true"></span>Синхронизировано</div>
       </div>
 
       <div class="dash-hero-row">
@@ -1008,57 +1044,61 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
             <circle class="ring-track" cx="44" cy="44" r="32" fill="none" stroke-width="6"/>
             <circle class="ring-fill" cx="44" cy="44" r="32" fill="none" stroke-width="6" stroke-dasharray="168.9 201.06"/>
           </svg>
-          <div class="ring-num"><span class="n">84</span><span class="of">out of 100</span></div>
+          <div class="ring-num" data-en="&lt;span class=&quot;n&quot;&gt;84&lt;/span&gt;&lt;span class=&quot;of&quot;&gt;out of 100&lt;/span&gt;"><span class="n">84</span><span class="of">из 100</span></div>
         </div>
-        <div class="life-callout">
-          <span class="mono" style="color:var(--tx3)">Projected</span>
-          <span class="v">+5.2 years</span>
-          <span class="l">Health span added</span>
+        <div class="life-callout" data-en="
+          &lt;span class=&quot;mono&quot; style=&quot;color:var(--tx3)&quot;&gt;Projected&lt;/span&gt;
+          &lt;span class=&quot;v&quot;&gt;+5.2 years&lt;/span&gt;
+          &lt;span class=&quot;l&quot;&gt;Health span added&lt;/span&gt;
+        ">
+          <span class="mono" style="color:var(--tx3)">Прогноз</span>
+          <span class="v">+5,2 года</span>
+          <span class="l">к периоду здоровой жизни</span>
         </div>
       </div>
 
       <div class="bm-list">
         <div class="bm-row">
           <svg class="bm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          <span class="bm-name">Heart</span>
+          <span class="bm-name" data-en="Heart">Сердце</span>
           <span class="bm-bar bar-gr"><i style="width:88%"></i></span>
           <span class="bm-val">88</span>
         </div>
         <div class="bm-row">
           <svg class="bm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h3l2-6 4 12 2-6h7"/></svg>
-          <span class="bm-name">Metabolic</span>
+          <span class="bm-name" data-en="Metabolic">Метаболизм</span>
           <span class="bm-bar bar-am"><i style="width:70%"></i></span>
           <span class="bm-val">70</span>
         </div>
         <div class="bm-row">
           <svg class="bm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-          <span class="bm-name">Longevity</span>
+          <span class="bm-name" data-en="Longevity">Долголетие</span>
           <span class="bm-bar bar-gr"><i style="width:82%"></i></span>
           <span class="bm-val">82</span>
         </div>
         <div class="bm-row">
           <svg class="bm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v6m0 8v6M4 12H2m20 0h-2M6 6 4.5 4.5M19.5 19.5 18 18M6 18l-1.5 1.5M19.5 4.5 18 6"/></svg>
-          <span class="bm-name">Hormonal</span>
+          <span class="bm-name" data-en="Hormonal">Гормоны</span>
           <span class="bm-bar bar-am"><i style="width:56%"></i></span>
           <span class="bm-val">56</span>
         </div>
         <div class="bm-row">
           <svg class="bm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-          <span class="bm-name">Sleep</span>
+          <span class="bm-name" data-en="Sleep">Сон</span>
           <span class="bm-bar bar-gr"><i style="width:76%"></i></span>
           <span class="bm-val">76</span>
         </div>
         <div class="bm-row">
           <svg class="bm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span class="bm-name">Immune</span>
+          <span class="bm-name" data-en="Immune">Иммунитет</span>
           <span class="bm-bar bar-am"><i style="width:68%"></i></span>
           <span class="bm-val">68</span>
         </div>
       </div>
 
       <div class="dash-insight">
-        <div class="dash-insight-head"><span class="live-dot" aria-hidden="true"></span>AI Insight · Today</div>
-        <div class="dash-insight-body">Your <strong>HRV dropped 14%</strong> after two nights below 6h sleep. Pushing tomorrow's training to Thursday raises projected recovery by <strong>+22%</strong>.</div>
+        <div class="dash-insight-head" data-en="&lt;span class=&quot;live-dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;AI Insight · Today"><span class="live-dot" aria-hidden="true"></span>AI-инсайт · сегодня</div>
+        <div class="dash-insight-body" data-en="Your &lt;strong&gt;HRV dropped 14%&lt;/strong&gt; after two nights below 6h sleep. Pushing tomorrow&#x27;s training to Thursday raises projected recovery by &lt;strong&gt;+22%&lt;/strong&gt;.">Ваш <strong>HRV упал на 14%</strong> после двух ночей сна меньше 6 часов. Если перенести завтрашнюю тренировку на четверг, прогноз восстановления вырастет на <strong>+22%</strong>.</div>
       </div>
     </div>
   </div>
@@ -1067,7 +1107,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
 <!-- ============================================================
      §8.3 MARQUEE
      ============================================================ -->
-<section class="marq" id="marquee" aria-label="Connected data sources">
+<section class="marq" id="marquee" aria-label="Планируемые источники данных" data-en-aria-label="Planned data sources">
   <div class="marq-track">
     <span class="marq-item">
       Apple Health <span class="dia" aria-hidden="true">✦</span>
@@ -1121,15 +1161,15 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
      ============================================================ -->
 <section class="sec s-light" id="problem">
   <div class="sec-inner">
-    <div class="kicker sr">Why everything else fails</div>
-    <h2 class="disp h2 sr d1">Dozens of tools.<br>They all <em>failed</em> the same way.</h2>
-    <p class="desc sr d2" style="margin-top:22px">You've tried the rings, the scales, the lab kits, the chatbots, the meal apps. Each gives you one thin slice of yourself — and none of them talk to each other.</p>
+    <div class="kicker sr" data-en="Why everything else fails">Почему всё остальное не работает</div>
+    <h2 class="disp h2 sr d1" data-en="Dozens of tools.&lt;br&gt;They all &lt;em&gt;failed&lt;/em&gt; the same way.">Десятки приложений.<br>И все <em>провалились</em> одинаково.</h2>
+    <p class="desc sr d2" style="margin-top:22px" data-en="You&#x27;ve tried the rings, the scales, the lab kits, the chatbots, the meal apps. Each gives you one thin slice of yourself — and none of them talk to each other.">Вы пробовали кольца, умные весы, наборы для анализов, чат-боты, дневники питания. Каждый показывает один тонкий срез вас — и ни один не разговаривает с остальными.</p>
 
     <div class="prob-grid">
-      <div class="prob-card sr up d1"><span class="x" aria-hidden="true">✕</span><div class="ico" aria-hidden="true">⌚</div><div class="nm">Wearable rings</div><div class="why">Tells you your sleep was bad. Doesn't tell you why, or what to change.</div></div>
-      <div class="prob-card sr up d2"><span class="x" aria-hidden="true">✕</span><div class="ico" aria-hidden="true">🧪</div><div class="nm">Annual labs</div><div class="why">100 markers, 12 pages, no follow-up. You file it and forget it.</div></div>
-      <div class="prob-card sr up d3"><span class="x" aria-hidden="true">✕</span><div class="ico" aria-hidden="true">🥗</div><div class="nm">Diet trackers</div><div class="why">Logs calories. Has no idea what your blood, sleep or stress are doing.</div></div>
-      <div class="prob-card sr up d4"><span class="x" aria-hidden="true">✕</span><div class="ico" aria-hidden="true">🤖</div><div class="nm">AI chatbots</div><div class="why">Answers anything in general. Knows nothing about you specifically.</div></div>
+      <div class="prob-card sr up d1"><span class="x" aria-hidden="true">✕</span><div class="ico" aria-hidden="true">⌚</div><div class="nm" data-en="Wearable rings">Умные кольца</div><div class="why" data-en="Tells you your sleep was bad. Doesn&#x27;t tell you why, or what to change.">Сообщают, что сон был плохим. Не говорят, почему и что менять.</div></div>
+      <div class="prob-card sr up d2"><span class="x" aria-hidden="true">✕</span><div class="ico" aria-hidden="true">🧪</div><div class="nm" data-en="Annual labs">Анализы раз в год</div><div class="why" data-en="100 markers, 12 pages, no follow-up. You file it and forget it.">100 маркеров, 12 страниц, никакого продолжения. Вы убираете их в папку и забываете.</div></div>
+      <div class="prob-card sr up d3"><span class="x" aria-hidden="true">✕</span><div class="ico" aria-hidden="true">🥗</div><div class="nm" data-en="Diet trackers">Дневники питания</div><div class="why" data-en="Logs calories. Has no idea what your blood, sleep or stress are doing.">Считают калории. И ничего не знают о вашей крови, сне и стрессе.</div></div>
+      <div class="prob-card sr up d4"><span class="x" aria-hidden="true">✕</span><div class="ico" aria-hidden="true">🤖</div><div class="nm" data-en="AI chatbots">AI-чат-боты</div><div class="why" data-en="Answers anything in general. Knows nothing about you specifically.">Отвечают на всё в общем. И ничего не знают именно о вас.</div></div>
     </div>
 
     <div class="prob-real sr up">
@@ -1137,22 +1177,22 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       </div>
       <div>
-        <div class="label">The real problem</div>
-        <h3>Your health lives in twenty places. None of them know each other.</h3>
-        <p>Every app holds a tiny shard of you. Your cardiologist can't see your CGM. Your nutrition app can't see your hormone panel. You become a translator between systems that should be talking — and you lose the signal that only emerges when all of it is in one place.</p>
+        <div class="label" data-en="The real problem">Настоящая проблема</div>
+        <h3 data-en="Your health lives in twenty places. None of them know each other.">Ваше здоровье живёт в двадцати местах. И они друг о друге не знают.</h3>
+        <p data-en="Every app holds a tiny shard of you. Your cardiologist can&#x27;t see your CGM. Your nutrition app can&#x27;t see your hormone panel. You become a translator between systems that should be talking — and you lose the signal that only emerges when all of it is in one place.">Каждое приложение держит крошечный осколок вас. Кардиолог не видит ваш CGM. Дневник питания не видит гормональную панель. Вы становитесь переводчиком между системами, которые должны разговаривать друг с другом, — и теряете сигнал, который появляется только тогда, когда всё собрано в одном месте.</p>
       </div>
     </div>
 
-    <div class="prob-arrow"><span class="ln"></span><span class="lbl">+ Life solves this ↓</span><span class="ln"></span></div>
+    <div class="prob-arrow" data-en="&lt;span class=&quot;ln&quot;&gt;&lt;/span&gt;&lt;span class=&quot;lbl&quot;&gt;+ Life solves this ↓&lt;/span&gt;&lt;span class=&quot;ln&quot;&gt;&lt;/span&gt;"><span class="ln"></span><span class="lbl">+ Life решает это ↓</span><span class="ln"></span></div>
 
     <div class="prob-sol sr up">
       <div class="ico-wrap" aria-hidden="true">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <div>
-        <div class="label">One operating system</div>
-        <h3>One system that <em>sees everything</em>, and tells you what matters next.</h3>
-        <p>+Life pulls every signal — clinical, biometric, nutritional, behavioral, genetic — into a single living picture, then surfaces the small set of changes that actually move your trajectory. Not more data. The right next step.</p>
+        <div class="label" data-en="One operating system">Одна операционная система</div>
+        <h3 data-en="One system that &lt;em&gt;sees everything&lt;/em&gt;, and tells you what matters next.">Одна система, которая <em>видит всё</em> и говорит, что важно дальше.</h3>
+        <p data-en="+Life pulls every signal — clinical, biometric, nutritional, behavioral, genetic — into a single living picture, then surfaces the small set of changes that actually move your trajectory. Not more data. The right next step.">+Life собирает каждый сигнал — клинический, биометрический, пищевой, поведенческий, генетический — в одну живую картину и показывает тот небольшой набор изменений, который действительно меняет вашу траекторию. Не больше данных. Правильный следующий шаг.</p>
       </div>
     </div>
   </div>
@@ -1163,45 +1203,45 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
      ============================================================ -->
 <section class="sec s-dark" id="pillars">
   <div class="sec-inner">
-    <div class="kicker sr">The five pillars</div>
-    <h2 class="disp h2 sr d1">One OS. Five streams of <em>truth</em><br>about your body.</h2>
-    <p class="desc sr d2" style="margin-top:22px">Every dimension of your physiology, captured continuously, modeled together. No pillar exists alone — and that's exactly the point.</p>
+    <div class="kicker sr" data-en="The five pillars">Пять основ</div>
+    <h2 class="disp h2 sr d1" data-en="One OS. Five streams of &lt;em&gt;truth&lt;/em&gt;&lt;br&gt;about your body.">Одна ОС. Пять потоков <em>правды</em><br>о вашем теле.</h2>
+    <p class="desc sr d2" style="margin-top:22px" data-en="Every dimension of your physiology, captured continuously, modeled together. No pillar exists alone — and that&#x27;s exactly the point.">Каждое измерение вашей физиологии — непрерывно фиксируется и моделируется вместе с остальными. Ни одна основа не существует отдельно, и в этом весь смысл.</p>
 
     <div class="pil-grid sr up d1">
       <div class="pil-card">
-        <div class="pil-num">01 — Clinical health</div>
+        <div class="pil-num" data-en="01 — Clinical health">01 — Клиническое здоровье</div>
         <div class="pil-ico" aria-hidden="true">🩺</div>
-        <div class="pil-name">Your <em>medical</em> story, decoded.</div>
-        <div class="pil-desc">Lab panels, imaging, EHR notes, prescriptions. Parsed and tracked over time, not buried in a portal.</div>
-        <div class="pil-tags"><span class="tag tag-gr">EHR</span><span class="tag tag-gr">LABS</span><span class="tag tag-lt">IMAGING</span></div>
+        <div class="pil-name" data-en="Your &lt;em&gt;medical&lt;/em&gt; story, decoded.">Ваша <em>медицинская</em> история, расшифрованная.</div>
+        <div class="pil-desc" data-en="Lab panels, imaging, EHR notes, prescriptions. Parsed and tracked over time, not buried in a portal.">Панели анализов, снимки, записи EHR, назначения. Разобраны и отслеживаются во времени, а не похоронены в личном кабинете.</div>
+        <div class="pil-tags" data-en="&lt;span class=&quot;tag tag-gr&quot;&gt;EHR&lt;/span&gt;&lt;span class=&quot;tag tag-gr&quot;&gt;LABS&lt;/span&gt;&lt;span class=&quot;tag tag-lt&quot;&gt;IMAGING&lt;/span&gt;"><span class="tag tag-gr">EHR</span><span class="tag tag-gr">АНАЛИЗЫ</span><span class="tag tag-lt">СНИМКИ</span></div>
       </div>
       <div class="pil-card">
-        <div class="pil-num">02 — Sleep</div>
+        <div class="pil-num" data-en="02 — Sleep">02 — Сон</div>
         <div class="pil-ico" aria-hidden="true">🌙</div>
-        <div class="pil-name">Your <em>recovery</em> engine.</div>
-        <div class="pil-desc">Stage architecture, HRV, resting HR, oxygenation. Quality, not just hours.</div>
-        <div class="pil-tags"><span class="tag tag-gr">HRV</span><span class="tag tag-gr">STAGES</span><span class="tag tag-lt">SpO₂</span></div>
+        <div class="pil-name" data-en="Your &lt;em&gt;recovery&lt;/em&gt; engine.">Ваш двигатель <em>восстановления</em>.</div>
+        <div class="pil-desc" data-en="Stage architecture, HRV, resting HR, oxygenation. Quality, not just hours.">Архитектура фаз, HRV, пульс покоя, насыщение кислородом. Качество, а не только часы.</div>
+        <div class="pil-tags" data-en="&lt;span class=&quot;tag tag-gr&quot;&gt;HRV&lt;/span&gt;&lt;span class=&quot;tag tag-gr&quot;&gt;STAGES&lt;/span&gt;&lt;span class=&quot;tag tag-lt&quot;&gt;SpO₂&lt;/span&gt;"><span class="tag tag-gr">HRV</span><span class="tag tag-gr">ФАЗЫ</span><span class="tag tag-lt">SpO₂</span></div>
       </div>
       <div class="pil-card">
-        <div class="pil-num">03 — Nutrition</div>
+        <div class="pil-num" data-en="03 — Nutrition">03 — Питание</div>
         <div class="pil-ico" aria-hidden="true">🥗</div>
-        <div class="pil-name">Your <em>fuel</em> profile.</div>
-        <div class="pil-desc">Macros, micronutrients, supplement stack, glucose response. What you eat — and how you respond.</div>
-        <div class="pil-tags"><span class="tag tag-gr">MACROS</span><span class="tag tag-gr">CGM</span><span class="tag tag-lt">SUPPS</span></div>
+        <div class="pil-name" data-en="Your &lt;em&gt;fuel&lt;/em&gt; profile.">Ваш профиль <em>топлива</em>.</div>
+        <div class="pil-desc" data-en="Macros, micronutrients, supplement stack, glucose response. What you eat — and how you respond.">БЖУ, микронутриенты, набор добавок, глюкозный отклик. Что вы едите — и как на это реагируете.</div>
+        <div class="pil-tags" data-en="&lt;span class=&quot;tag tag-gr&quot;&gt;MACROS&lt;/span&gt;&lt;span class=&quot;tag tag-gr&quot;&gt;CGM&lt;/span&gt;&lt;span class=&quot;tag tag-lt&quot;&gt;SUPPS&lt;/span&gt;"><span class="tag tag-gr">БЖУ</span><span class="tag tag-gr">CGM</span><span class="tag tag-lt">ДОБАВКИ</span></div>
       </div>
       <div class="pil-card">
-        <div class="pil-num">04 — Movement</div>
+        <div class="pil-num" data-en="04 — Movement">04 — Движение</div>
         <div class="pil-ico" aria-hidden="true">⚡</div>
-        <div class="pil-name">Your <em>output</em> over time.</div>
-        <div class="pil-desc">Cardio load, strength volume, VO₂ max, recovery debt. Training as a long curve, not isolated sessions.</div>
-        <div class="pil-tags"><span class="tag tag-gr">VO₂</span><span class="tag tag-gr">LOAD</span><span class="tag tag-lt">STRENGTH</span></div>
+        <div class="pil-name" data-en="Your &lt;em&gt;output&lt;/em&gt; over time.">Ваша <em>отдача</em> во времени.</div>
+        <div class="pil-desc" data-en="Cardio load, strength volume, VO₂ max, recovery debt. Training as a long curve, not isolated sessions.">Кардионагрузка, силовой объём, VO₂ max, долг восстановления. Тренировки как длинная кривая, а не отдельные сессии.</div>
+        <div class="pil-tags" data-en="&lt;span class=&quot;tag tag-gr&quot;&gt;VO₂&lt;/span&gt;&lt;span class=&quot;tag tag-gr&quot;&gt;LOAD&lt;/span&gt;&lt;span class=&quot;tag tag-lt&quot;&gt;STRENGTH&lt;/span&gt;"><span class="tag tag-gr">VO₂</span><span class="tag tag-gr">НАГРУЗКА</span><span class="tag tag-lt">СИЛА</span></div>
       </div>
       <div class="pil-card">
-        <div class="pil-num">05 — Genome</div>
+        <div class="pil-num" data-en="05 — Genome">05 — Геном</div>
         <div class="pil-ico" aria-hidden="true">🧬</div>
-        <div class="pil-name">Your <em>baseline</em> code.</div>
-        <div class="pil-desc">Polygenic risk, pharmacogenomics, methylation pathways. The static layer everything else reads against.</div>
-        <div class="pil-tags"><span class="tag tag-gr">SNPs</span><span class="tag tag-gr">PRS</span><span class="tag tag-lt">PHARMA</span></div>
+        <div class="pil-name" data-en="Your &lt;em&gt;baseline&lt;/em&gt; code.">Ваш <em>базовый</em> код.</div>
+        <div class="pil-desc" data-en="Polygenic risk, pharmacogenomics, methylation pathways. The static layer everything else reads against.">Полигенный риск, фармакогенетика, пути метилирования. Статичный слой, относительно которого читается всё остальное.</div>
+        <div class="pil-tags" data-en="&lt;span class=&quot;tag tag-gr&quot;&gt;SNPs&lt;/span&gt;&lt;span class=&quot;tag tag-gr&quot;&gt;PRS&lt;/span&gt;&lt;span class=&quot;tag tag-lt&quot;&gt;PHARMA&lt;/span&gt;"><span class="tag tag-gr">SNP</span><span class="tag tag-gr">PRS</span><span class="tag tag-lt">ФАРМА</span></div>
       </div>
     </div>
 
@@ -1209,24 +1249,24 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
 
     <div class="cnst-panel sr up d1">
       <div class="cnst-copy">
-        <h3>One <em>intelligent</em> OS, learning across every pillar.</h3>
-        <p>Signals never stay siloed. Your sleep talks to your training. Your training talks to your genome. Your labs talk to your nutrition. The model finds the cross-pillar links a single specialist would never see.</p>
+        <h3 data-en="One &lt;em&gt;intelligent&lt;/em&gt; OS, learning across every pillar.">Одна <em>интеллектуальная</em> ОС, которая учится на всех основах сразу.</h3>
+        <p data-en="Signals never stay siloed. Your sleep talks to your training. Your training talks to your genome. Your labs talk to your nutrition. The model finds the cross-pillar links a single specialist would never see.">Сигналы не остаются в изоляции. Сон разговаривает с тренировками. Тренировки — с геномом. Анализы — с питанием. Модель находит связи между основами, которых один специалист никогда не увидит.</p>
         <div class="cnst-out">
-          <div class="row"><span class="dot" aria-hidden="true"></span><span class="t">ApoB rising → <span>tighten saturated fat, add zone-2 volume</span></span></div>
-          <div class="row"><span class="dot" aria-hidden="true"></span><span class="t">Low ferritin × HRV drop → <span>iron retest, deload week</span></span></div>
-          <div class="row"><span class="dot" aria-hidden="true"></span><span class="t">MTHFR variant + low B12 → <span>switch to methylfolate</span></span></div>
-          <div class="row"><span class="dot" aria-hidden="true"></span><span class="t">Cortisol AM × poor deep sleep → <span>shift caffeine cutoff to 10am</span></span></div>
+          <div class="row" data-en="&lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;t&quot;&gt;ApoB rising → &lt;span&gt;tighten saturated fat, add zone-2 volume&lt;/span&gt;&lt;/span&gt;"><span class="dot" aria-hidden="true"></span><span class="t">ApoB растёт → <span>сократить насыщенные жиры, добавить объём в zone-2</span></span></div>
+          <div class="row" data-en="&lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;t&quot;&gt;Low ferritin × HRV drop → &lt;span&gt;iron retest, deload week&lt;/span&gt;&lt;/span&gt;"><span class="dot" aria-hidden="true"></span><span class="t">Низкий ферритин × падение HRV → <span>повторить железо, разгрузочная неделя</span></span></div>
+          <div class="row" data-en="&lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;t&quot;&gt;MTHFR variant + low B12 → &lt;span&gt;switch to methylfolate&lt;/span&gt;&lt;/span&gt;"><span class="dot" aria-hidden="true"></span><span class="t">Вариант MTHFR + низкий B12 → <span>перейти на метилфолат</span></span></div>
+          <div class="row" data-en="&lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span class=&quot;t&quot;&gt;Cortisol AM × poor deep sleep → &lt;span&gt;shift caffeine cutoff to 10am&lt;/span&gt;&lt;/span&gt;"><span class="dot" aria-hidden="true"></span><span class="t">Утренний кортизол × плохой глубокий сон → <span>сдвинуть последний кофе на 10:00</span></span></div>
         </div>
       </div>
       <div class="cnst-canvas-wrap">
         <canvas id="constellationCanvas" aria-hidden="true"></canvas>
-        <div class="cnst-cap"><span class="live-dot" aria-hidden="true"></span>Live · cross-pillar map</div>
+        <div class="cnst-cap" data-en="&lt;span class=&quot;live-dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Live · cross-pillar map"><span class="live-dot" aria-hidden="true"></span>Live · карта связей между основами</div>
         <div class="cnst-legend" aria-hidden="true">
-          <div class="li"><i style="background:#ff6b6b"></i>Clinical</div>
-          <div class="li"><i style="background:#4dd4ff"></i>Sleep</div>
-          <div class="li"><i style="background:#39ff6e"></i>Nutrition</div>
-          <div class="li"><i style="background:#ffa53b"></i>Movement</div>
-          <div class="li"><i style="background:#c084fc"></i>Genome</div>
+          <div class="li" data-en="&lt;i style=&quot;background:#ff6b6b&quot;&gt;&lt;/i&gt;Clinical"><i style="background:#ff6b6b"></i>Клиника</div>
+          <div class="li" data-en="&lt;i style=&quot;background:#4dd4ff&quot;&gt;&lt;/i&gt;Sleep"><i style="background:#4dd4ff"></i>Сон</div>
+          <div class="li" data-en="&lt;i style=&quot;background:#39ff6e&quot;&gt;&lt;/i&gt;Nutrition"><i style="background:#39ff6e"></i>Питание</div>
+          <div class="li" data-en="&lt;i style=&quot;background:#ffa53b&quot;&gt;&lt;/i&gt;Movement"><i style="background:#ffa53b"></i>Движение</div>
+          <div class="li" data-en="&lt;i style=&quot;background:#c084fc&quot;&gt;&lt;/i&gt;Genome"><i style="background:#c084fc"></i>Геном</div>
         </div>
       </div>
     </div>
@@ -1238,28 +1278,28 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
      ============================================================ -->
 <section class="sec s-dark2" id="features">
   <div class="sec-inner">
-    <div class="kicker sr">What you get</div>
-    <h2 class="disp h2 sr d1">Five pillars.<br>One <em>complete</em> picture.</h2>
-    <p class="desc sr d2" style="margin-top:22px">Each pillar gets its own deep view, but no view stands alone. Every chart is read by every other.</p>
+    <div class="kicker sr" data-en="What you get">Что вы получаете</div>
+    <h2 class="disp h2 sr d1" data-en="Five pillars.&lt;br&gt;One &lt;em&gt;complete&lt;/em&gt; picture.">Пять основ.<br>Одна <em>полная</em> картина.</h2>
+    <p class="desc sr d2" style="margin-top:22px" data-en="Each pillar gets its own deep view, but no view stands alone. Every chart is read by every other.">У каждой основы свой глубокий экран, но ни один не существует сам по себе. Каждый график читается всеми остальными.</p>
 
     <div class="feat-stack">
 
       <!-- ROW 1 — Clinical -->
       <div class="feat-row sr up">
         <div class="feat-copy">
-          <div class="feat-meta">01 — Clinical health</div>
-          <h3>Every lab marker in <em>context</em>, not just in range.</h3>
-          <p>Not just "in range" or "out of range". +Life shows you where each marker sits inside the optimal band, how it's trending across years, and which other pillars are pushing it.</p>
+          <div class="feat-meta" data-en="01 — Clinical health">01 — Клиническое здоровье</div>
+          <h3 data-en="Every lab marker in &lt;em&gt;context&lt;/em&gt;, not just in range.">Каждый маркер в <em>контексте</em>, а не просто «в норме».</h3>
+          <p data-en="Not just &quot;in range&quot; or &quot;out of range&quot;. +Life shows you where each marker sits inside the optimal band, how it&#x27;s trending across years, and which other pillars are pushing it.">Не просто «в норме» или «вне нормы». +Life показывает, где каждый маркер стоит внутри оптимального диапазона, как он движется годами и какие другие основы на него давят.</p>
         </div>
         <div class="feat-vis">
           <div class="f-bm">
-            <div class="f-bm-head"><span class="t">Cardiometabolic panel</span><span class="mono">12 markers · today</span></div>
-            <div class="f-bm-row"><span class="nm">ApoB</span><span class="f-range"><span class="lab"></span><span class="opt"></span><span class="lab2"></span><span class="mark" style="left:38%"></span></span><span class="vl">78 mg/dL</span></div>
-            <div class="f-bm-row"><span class="nm">LDL-C</span><span class="f-range"><span class="lab"></span><span class="opt"></span><span class="lab2"></span><span class="mark" style="left:55%"></span></span><span class="vl">102 mg/dL</span></div>
-            <div class="f-bm-row"><span class="nm">HDL-C</span><span class="f-range"><span class="lab"></span><span class="opt"></span><span class="lab2"></span><span class="mark" style="left:62%"></span></span><span class="vl">61 mg/dL</span></div>
-            <div class="f-bm-row"><span class="nm">Lp(a)</span><span class="f-range"><span class="lab"></span><span class="opt"></span><span class="lab2"></span><span class="mark" style="left:22%"></span></span><span class="vl">14 nmol/L</span></div>
-            <div class="f-bm-row"><span class="nm">hs-CRP</span><span class="f-range"><span class="lab"></span><span class="opt"></span><span class="lab2"></span><span class="mark" style="left:48%"></span></span><span class="vl">0.6 mg/L</span></div>
-            <div class="f-bm-row"><span class="nm">Fasting glucose</span><span class="f-range"><span class="lab"></span><span class="opt"></span><span class="lab2"></span><span class="mark" style="left:50%"></span></span><span class="vl">88 mg/dL</span></div>
+            <div class="f-bm-head" data-en="&lt;span class=&quot;t&quot;&gt;Cardiometabolic panel&lt;/span&gt;&lt;span class=&quot;mono&quot;&gt;12 markers · today&lt;/span&gt;"><span class="t">Кардиометаболическая панель</span><span class="mono">12 маркеров · сегодня</span></div>
+            <div class="f-bm-row" data-en="&lt;span class=&quot;nm&quot;&gt;ApoB&lt;/span&gt;&lt;span class=&quot;f-range&quot;&gt;&lt;span class=&quot;lab&quot;&gt;&lt;/span&gt;&lt;span class=&quot;opt&quot;&gt;&lt;/span&gt;&lt;span class=&quot;lab2&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mark&quot; style=&quot;left:38%&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vl&quot;&gt;78 mg/dL&lt;/span&gt;"><span class="nm">ApoB</span><span class="f-range"><span class="lab"></span><span class="opt"></span><span class="lab2"></span><span class="mark" style="left:38%"></span></span><span class="vl">78 мг/дл</span></div>
+            <div class="f-bm-row" data-en="&lt;span class=&quot;nm&quot;&gt;LDL-C&lt;/span&gt;&lt;span class=&quot;f-range&quot;&gt;&lt;span class=&quot;lab&quot;&gt;&lt;/span&gt;&lt;span class=&quot;opt&quot;&gt;&lt;/span&gt;&lt;span class=&quot;lab2&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mark&quot; style=&quot;left:55%&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vl&quot;&gt;102 mg/dL&lt;/span&gt;"><span class="nm">LDL-C</span><span class="f-range"><span class="lab"></span><span class="opt"></span><span class="lab2"></span><span class="mark" style="left:55%"></span></span><span class="vl">102 мг/дл</span></div>
+            <div class="f-bm-row" data-en="&lt;span class=&quot;nm&quot;&gt;HDL-C&lt;/span&gt;&lt;span class=&quot;f-range&quot;&gt;&lt;span class=&quot;lab&quot;&gt;&lt;/span&gt;&lt;span class=&quot;opt&quot;&gt;&lt;/span&gt;&lt;span class=&quot;lab2&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mark&quot; style=&quot;left:62%&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vl&quot;&gt;61 mg/dL&lt;/span&gt;"><span class="nm">HDL-C</span><span class="f-range"><span class="lab"></span><span class="opt"></span><span class="lab2"></span><span class="mark" style="left:62%"></span></span><span class="vl">61 мг/дл</span></div>
+            <div class="f-bm-row" data-en="&lt;span class=&quot;nm&quot;&gt;Lp(a)&lt;/span&gt;&lt;span class=&quot;f-range&quot;&gt;&lt;span class=&quot;lab&quot;&gt;&lt;/span&gt;&lt;span class=&quot;opt&quot;&gt;&lt;/span&gt;&lt;span class=&quot;lab2&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mark&quot; style=&quot;left:22%&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vl&quot;&gt;14 nmol/L&lt;/span&gt;"><span class="nm">Lp(a)</span><span class="f-range"><span class="lab"></span><span class="opt"></span><span class="lab2"></span><span class="mark" style="left:22%"></span></span><span class="vl">14 нмоль/л</span></div>
+            <div class="f-bm-row" data-en="&lt;span class=&quot;nm&quot;&gt;hs-CRP&lt;/span&gt;&lt;span class=&quot;f-range&quot;&gt;&lt;span class=&quot;lab&quot;&gt;&lt;/span&gt;&lt;span class=&quot;opt&quot;&gt;&lt;/span&gt;&lt;span class=&quot;lab2&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mark&quot; style=&quot;left:48%&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vl&quot;&gt;0.6 mg/L&lt;/span&gt;"><span class="nm">hs-CRP</span><span class="f-range"><span class="lab"></span><span class="opt"></span><span class="lab2"></span><span class="mark" style="left:48%"></span></span><span class="vl">0,6 мг/л</span></div>
+            <div class="f-bm-row" data-en="&lt;span class=&quot;nm&quot;&gt;Fasting glucose&lt;/span&gt;&lt;span class=&quot;f-range&quot;&gt;&lt;span class=&quot;lab&quot;&gt;&lt;/span&gt;&lt;span class=&quot;opt&quot;&gt;&lt;/span&gt;&lt;span class=&quot;lab2&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mark&quot; style=&quot;left:50%&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vl&quot;&gt;88 mg/dL&lt;/span&gt;"><span class="nm">Глюкоза натощак</span><span class="f-range"><span class="lab"></span><span class="opt"></span><span class="lab2"></span><span class="mark" style="left:50%"></span></span><span class="vl">88 мг/дл</span></div>
           </div>
         </div>
       </div>
@@ -1267,16 +1307,16 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
       <!-- ROW 2 — Sleep -->
       <div class="feat-row flip sr up">
         <div class="feat-copy">
-          <div class="feat-meta">02 — Sleep</div>
-          <h3>Sleep as <em>architecture</em>, not a single number.</h3>
-          <p>See deep, REM and light separately. Watch how last night's structure changes today's HRV, today's mood, today's tolerance for training. The model learns your personal recovery curve.</p>
+          <div class="feat-meta" data-en="02 — Sleep">02 — Сон</div>
+          <h3 data-en="Sleep as &lt;em&gt;architecture&lt;/em&gt;, not a single number.">Сон как <em>архитектура</em>, а не одно число.</h3>
+          <p data-en="See deep, REM and light separately. Watch how last night&#x27;s structure changes today&#x27;s HRV, today&#x27;s mood, today&#x27;s tolerance for training. The model learns your personal recovery curve.">Глубокий, REM и лёгкий — по отдельности. Видно, как структура прошлой ночи меняет сегодняшний HRV, настроение и переносимость нагрузки. Модель учит вашу личную кривую восстановления.</p>
         </div>
         <div class="feat-vis">
           <div class="f-sleep">
             <div class="f-sleep-head">
               <div>
-                <div class="mono" style="color:var(--tx3)">Tonight's sleep</div>
-                <div style="font-family:var(--fd);font-size:34px;color:var(--tx);line-height:1;margin-top:6px">7h 42m</div>
+                <div class="mono" style="color:var(--tx3)" data-en="Tonight&#x27;s sleep">Сон этой ночью</div>
+                <div style="font-family:var(--fd);font-size:34px;color:var(--tx);line-height:1;margin-top:6px" data-en="7h 42m">7 ч 42 м</div>
               </div>
               <div class="ring" style="width:72px;height:72px" aria-hidden="true">
                 <svg viewBox="0 0 88 88">
@@ -1287,14 +1327,14 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
               </div>
             </div>
             <div>
-              <div class="mono" style="color:var(--tx3);margin-bottom:8px">Stage architecture</div>
+              <div class="mono" style="color:var(--tx3);margin-bottom:8px" data-en="Stage architecture">Архитектура фаз</div>
               <div class="f-sleep-stages" aria-hidden="true"><span class="deep"></span><span class="rem"></span><span class="light"></span></div>
-              <div class="f-sleep-leg"><span class="li"><i style="background:#3b82f6"></i>Deep 1h 42m</span><span class="li"><i style="background:#8b5cf6"></i>REM 1h 14m</span><span class="li"><i style="background:#6b7280"></i>Light 4h 46m</span></div>
+              <div class="f-sleep-leg" data-en="&lt;span class=&quot;li&quot;&gt;&lt;i style=&quot;background:#3b82f6&quot;&gt;&lt;/i&gt;Deep 1h 42m&lt;/span&gt;&lt;span class=&quot;li&quot;&gt;&lt;i style=&quot;background:#8b5cf6&quot;&gt;&lt;/i&gt;REM 1h 14m&lt;/span&gt;&lt;span class=&quot;li&quot;&gt;&lt;i style=&quot;background:#6b7280&quot;&gt;&lt;/i&gt;Light 4h 46m&lt;/span&gt;"><span class="li"><i style="background:#3b82f6"></i>Глубокий 1 ч 42 м</span><span class="li"><i style="background:#8b5cf6"></i>REM 1 ч 14 м</span><span class="li"><i style="background:#6b7280"></i>Лёгкий 4 ч 46 м</span></div>
             </div>
             <div class="f-sleep-stats">
-              <div class="stat"><span class="n">52</span><span class="l">HRV ms</span></div>
-              <div class="stat"><span class="n">48</span><span class="l">Resting HR</span></div>
-              <div class="stat"><span class="n">96%</span><span class="l">SpO₂ avg</span></div>
+              <div class="stat" data-en="&lt;span class=&quot;n&quot;&gt;52&lt;/span&gt;&lt;span class=&quot;l&quot;&gt;HRV ms&lt;/span&gt;"><span class="n">52</span><span class="l">HRV, мс</span></div>
+              <div class="stat" data-en="&lt;span class=&quot;n&quot;&gt;48&lt;/span&gt;&lt;span class=&quot;l&quot;&gt;Resting HR&lt;/span&gt;"><span class="n">48</span><span class="l">Пульс покоя</span></div>
+              <div class="stat" data-en="&lt;span class=&quot;n&quot;&gt;96%&lt;/span&gt;&lt;span class=&quot;l&quot;&gt;SpO₂ avg&lt;/span&gt;"><span class="n">96%</span><span class="l">SpO₂ средн.</span></div>
             </div>
           </div>
         </div>
@@ -1303,31 +1343,31 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
       <!-- ROW 3 — Nutrition -->
       <div class="feat-row sr up">
         <div class="feat-copy">
-          <div class="feat-meta">03 — Nutrition</div>
-          <h3>Food, supplements and your <em>response</em>, in one frame.</h3>
-          <p>Macros, micronutrients and your personal supplement stack — paired with your CGM curves and lab markers, so a meal is never just calories. It's a measurable change in your blood.</p>
+          <div class="feat-meta" data-en="03 — Nutrition">03 — Питание</div>
+          <h3 data-en="Food, supplements and your &lt;em&gt;response&lt;/em&gt;, in one frame.">Еда, добавки и ваш <em>отклик</em> — в одном кадре.</h3>
+          <p data-en="Macros, micronutrients and your personal supplement stack — paired with your CGM curves and lab markers, so a meal is never just calories. It&#x27;s a measurable change in your blood.">БЖУ, микронутриенты и ваш личный набор добавок — рядом с кривыми CGM и маркерами анализов. Приём пищи перестаёт быть просто калориями: это измеримое изменение в вашей крови.</p>
         </div>
         <div class="feat-vis">
           <div class="f-nut">
             <div class="f-nut-card">
-              <div class="hd">Today · Macros</div>
-              <div class="f-nut-row"><span>Protein</span><span class="v">142 g</span></div>
+              <div class="hd" data-en="Today · Macros">Сегодня · БЖУ</div>
+              <div class="f-nut-row" data-en="&lt;span&gt;Protein&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;142 g&lt;/span&gt;"><span>Белки</span><span class="v">142 г</span></div>
               <div class="bar bar-gr"><i style="width:78%"></i></div>
-              <div class="f-nut-row"><span>Carbs</span><span class="v">218 g</span></div>
+              <div class="f-nut-row" data-en="&lt;span&gt;Carbs&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;218 g&lt;/span&gt;"><span>Углеводы</span><span class="v">218 г</span></div>
               <div class="bar bar-am"><i style="width:62%"></i></div>
-              <div class="f-nut-row"><span>Fat</span><span class="v">74 g</span></div>
+              <div class="f-nut-row" data-en="&lt;span&gt;Fat&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;74 g&lt;/span&gt;"><span>Жиры</span><span class="v">74 г</span></div>
               <div class="bar bar-gr"><i style="width:55%"></i></div>
-              <div class="f-nut-row"><span>Fiber</span><span class="v">38 g</span></div>
+              <div class="f-nut-row" data-en="&lt;span&gt;Fiber&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;38 g&lt;/span&gt;"><span>Клетчатка</span><span class="v">38 г</span></div>
               <div class="bar bar-gr"><i style="width:84%"></i></div>
             </div>
             <div class="f-nut-card">
-              <div class="hd">Stack · 6 of 7 logged</div>
-              <div class="f-supp-row"><span class="dot" aria-hidden="true"></span>Vitamin D3 5000 IU<span class="v">8:12 AM</span></div>
-              <div class="f-supp-row"><span class="dot" aria-hidden="true"></span>Omega-3 2g<span class="v">8:12 AM</span></div>
-              <div class="f-supp-row"><span class="dot" aria-hidden="true"></span>Magnesium glyc.<span class="v">10:04 PM</span></div>
-              <div class="f-supp-row"><span class="dot" aria-hidden="true"></span>Methylfolate<span class="v">8:12 AM</span></div>
-              <div class="f-supp-row"><span class="dot" aria-hidden="true"></span>Creatine 5g<span class="v">5:30 PM</span></div>
-              <div class="f-supp-row"><span class="dot" aria-hidden="true" style="background:#6a6560;box-shadow:none"></span><span style="color:var(--tx3)">B12 — pending</span></div>
+              <div class="hd" data-en="Stack · 6 of 7 logged">Набор · внесено 6 из 7</div>
+              <div class="f-supp-row" data-en="&lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Vitamin D3 5000 IU&lt;span class=&quot;v&quot;&gt;8:12 AM&lt;/span&gt;"><span class="dot" aria-hidden="true"></span>Витамин D3 5000 МЕ<span class="v">8:12</span></div>
+              <div class="f-supp-row" data-en="&lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Omega-3 2g&lt;span class=&quot;v&quot;&gt;8:12 AM&lt;/span&gt;"><span class="dot" aria-hidden="true"></span>Омега-3 2 г<span class="v">8:12</span></div>
+              <div class="f-supp-row" data-en="&lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Magnesium glyc.&lt;span class=&quot;v&quot;&gt;10:04 PM&lt;/span&gt;"><span class="dot" aria-hidden="true"></span>Магний глицинат<span class="v">22:04</span></div>
+              <div class="f-supp-row" data-en="&lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Methylfolate&lt;span class=&quot;v&quot;&gt;8:12 AM&lt;/span&gt;"><span class="dot" aria-hidden="true"></span>Метилфолат<span class="v">8:12</span></div>
+              <div class="f-supp-row" data-en="&lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Creatine 5g&lt;span class=&quot;v&quot;&gt;5:30 PM&lt;/span&gt;"><span class="dot" aria-hidden="true"></span>Креатин 5 г<span class="v">17:30</span></div>
+              <div class="f-supp-row" data-en="&lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot; style=&quot;background:#6a6560;box-shadow:none&quot;&gt;&lt;/span&gt;&lt;span style=&quot;color:var(--tx3)&quot;&gt;B12 — pending&lt;/span&gt;"><span class="dot" aria-hidden="true" style="background:#6a6560;box-shadow:none"></span><span style="color:var(--tx3)">B12 — ожидает</span></div>
             </div>
           </div>
         </div>
@@ -1336,23 +1376,23 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
       <!-- ROW 4 — AI cross-pillar chat -->
       <div class="feat-row flip sr up">
         <div class="feat-copy">
-          <div class="feat-meta">04 — Cross-pillar AI</div>
-          <h3>Ask anything. Get an <em>answer</em> built from all of you.</h3>
-          <p>Not generic advice. Every reply pulls from your labs, sleep, training, food, and genome at once — the way a brilliant doctor with infinite time would actually think.</p>
+          <div class="feat-meta" data-en="04 — Cross-pillar AI">04 — AI между основами</div>
+          <h3 data-en="Ask anything. Get an &lt;em&gt;answer&lt;/em&gt; built from all of you.">Спросите о чём угодно. Получите <em>ответ</em>, собранный из всего вас.</h3>
+          <p data-en="Not generic advice. Every reply pulls from your labs, sleep, training, food, and genome at once — the way a brilliant doctor with infinite time would actually think.">Никаких общих советов. Каждый ответ одновременно опирается на ваши анализы, сон, тренировки, еду и геном — так, как думал бы блестящий врач, у которого бесконечно много времени.</p>
         </div>
         <div class="feat-vis">
           <div class="f-chat">
             <div>
-              <div class="lbl">You · 2:14 PM</div>
-              <div class="msg me">Why am I so flat in the gym this week?</div>
+              <div class="lbl" data-en="You · 2:14 PM">Вы · 14:14</div>
+              <div class="msg me" data-en="Why am I so flat in the gym this week?">Почему я на этой неделе такой вялый в зале?</div>
             </div>
             <div>
-              <div class="lbl">+Life · synthesis</div>
-              <div class="msg agent">Three signals point the same way. Your <strong>HRV is down 18%</strong> over 5 days. <strong>Ferritin trended low</strong> on your last panel. And you've slept under 6h on 4 of the last 7 nights. This is recovery debt, not a strength plateau.</div>
+              <div class="lbl" data-en="+Life · synthesis">+Life · синтез</div>
+              <div class="msg agent" data-en="Three signals point the same way. Your &lt;strong&gt;HRV is down 18%&lt;/strong&gt; over 5 days. &lt;strong&gt;Ferritin trended low&lt;/strong&gt; on your last panel. And you&#x27;ve slept under 6h on 4 of the last 7 nights. This is recovery debt, not a strength plateau.">Три сигнала указывают в одну сторону. <strong>HRV ниже на 18%</strong> за 5 дней. <strong>Ферритин снижался</strong> на последней панели. И 4 из последних 7 ночей вы спали меньше 6 часов. Это долг восстановления, а не силовое плато.</div>
             </div>
             <div>
-              <div class="lbl">+Life · suggested move</div>
-              <div class="msg agent">Swap tomorrow's heavy session for <strong>zone-2 + mobility</strong>, push your caffeine cutoff to 10am, and re-test ferritin in 2 weeks. Projected HRV recovery: <strong>+22% in 7 days</strong>.</div>
+              <div class="lbl" data-en="+Life · suggested move">+Life · предлагаемый шаг</div>
+              <div class="msg agent" data-en="Swap tomorrow&#x27;s heavy session for &lt;strong&gt;zone-2 + mobility&lt;/strong&gt;, push your caffeine cutoff to 10am, and re-test ferritin in 2 weeks. Projected HRV recovery: &lt;strong&gt;+22% in 7 days&lt;/strong&gt;.">Замените завтрашнюю тяжёлую тренировку на <strong>zone-2 + мобильность</strong>, сдвиньте последний кофе на 10:00 и повторите ферритин через 2 недели. Прогноз восстановления HRV: <strong>+22% за 7 дней</strong>.</div>
             </div>
           </div>
         </div>
@@ -1369,53 +1409,53 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
   <div class="sec-inner">
     <div class="ehr-grid">
       <div>
-        <div class="kicker sr">EHR · Records connect</div>
-        <h2 class="disp h2 sr d1">Connect your records once.<br><em>Done</em> forever.</h2>
-        <p class="desc sr d2" style="margin-top:22px">Every visit, every lab, every prescription — pulled directly from your providers, parsed, and added to your living record. You never re-enter anything.</p>
+        <div class="kicker sr" data-en="EHR · Records connect">EHR · подключение записей</div>
+        <h2 class="disp h2 sr d1" data-en="Connect your records once.&lt;br&gt;&lt;em&gt;Done&lt;/em&gt; forever.">Подключите записи один раз.<br>И <em>всё</em>.</h2>
+        <p class="desc sr d2" style="margin-top:22px" data-en="Every visit, every lab, every prescription — pulled directly from your providers, parsed, and added to your living record. You never re-enter anything.">Каждый визит, каждый анализ, каждое назначение — подтягиваются напрямую от ваших клиник, разбираются и добавляются в вашу живую карту. Вручную вводить ничего не нужно.</p>
         <div class="ehr-bullets">
           <div class="ehr-bullet sr d1">
             <div class="ck" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <div><h4>Direct from your providers</h4><p>Connect Epic, Cerner, Oracle Health and 250+ U.S. health systems through certified FHIR pipes.</p></div>
+            <div><h4 data-en="Direct from your providers">Напрямую от ваших клиник</h4><p data-en="Planned: Epic, Cerner, Oracle Health and other FHIR-compatible systems via certified pipes.">Планируется подключение Epic, Cerner, Oracle Health и других FHIR-совместимых систем через сертифицированные каналы.</p></div>
           </div>
           <div class="ehr-bullet sr d2">
             <div class="ck" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <div><h4>Parsed into structured data</h4><p>Free-text notes become structured markers, trends and timelines — not PDFs you'll never re-open.</p></div>
+            <div><h4 data-en="Parsed into structured data">Превращаются в структурированные данные</h4><p data-en="Free-text notes become structured markers, trends and timelines — not PDFs you&#x27;ll never re-open.">Свободный текст заключений становится структурированными маркерами, трендами и таймлайнами — а не PDF, который вы больше никогда не откроете.</p></div>
           </div>
           <div class="ehr-bullet sr d3">
             <div class="ck" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <div><h4>Encrypted and yours alone</h4><p>HIPAA-grade encryption end-to-end. Your data never trains a model. Export it, delete it, move it, anytime.</p></div>
+            <div><h4 data-en="Encrypted and yours alone">Зашифровано и принадлежит только вам</h4><p data-en="HIPAA-grade encryption end-to-end. Your data never trains a model. Export it, delete it, move it, anytime.">Сквозное шифрование уровня HIPAA. Ваши данные не обучают модель. Выгрузить, удалить, перенести — в любой момент.</p></div>
           </div>
         </div>
       </div>
 
       <div class="sr right">
         <div class="ehr-conn">
-          <div class="ehr-conn-head"><span class="t">Connected providers</span><span class="mono" style="color:var(--gr)">4 active</span></div>
+          <div class="ehr-conn-head" data-en="&lt;span class=&quot;t&quot;&gt;Connected providers · demo&lt;/span&gt;&lt;span class=&quot;mono&quot; style=&quot;color:var(--gr)&quot;&gt;4 active&lt;/span&gt;"><span class="t">Подключённые провайдеры · демо</span><span class="mono" style="color:var(--gr)">4 активны</span></div>
           <div class="prov-row">
             <div class="prov-logo" style="background:#cb1f27" aria-hidden="true">E</div>
-            <div><div class="prov-name">Epic MyChart</div><span class="prov-meta">Stanford Health · last sync 2m ago</span></div>
-            <span class="pill pill-gr">Synced</span>
+            <div><div class="prov-name">Epic MyChart</div><span class="prov-meta" data-en="Stanford Health · last sync 2m ago">Stanford Health · синхр. 2 мин назад</span></div>
+            <span class="pill pill-gr" data-en="Synced">Синхр.</span>
           </div>
           <div class="prov-row">
             <div class="prov-logo" style="background:linear-gradient(135deg,#ff6b6b,#ff9472)" aria-hidden="true">A</div>
-            <div><div class="prov-name">Apple Health Records</div><span class="prov-meta">Personal · last sync 14m ago</span></div>
-            <span class="pill pill-gr">Synced</span>
+            <div><div class="prov-name" data-en="Apple Health Records">Apple Health Records</div><span class="prov-meta" data-en="Personal · last sync 14m ago">Личный · синхр. 14 мин назад</span></div>
+            <span class="pill pill-gr" data-en="Synced">Синхр.</span>
           </div>
           <div class="prov-row">
             <div class="prov-logo" style="background:#0d7e7e" aria-hidden="true">b</div>
-            <div><div class="prov-name">b.well</div><span class="prov-meta">Aggregator · last sync 38m ago</span></div>
-            <span class="pill pill-gr">Synced</span>
+            <div><div class="prov-name">b.well</div><span class="prov-meta" data-en="Aggregator · last sync 38m ago">Агрегатор · синхр. 38 мин назад</span></div>
+            <span class="pill pill-gr" data-en="Synced">Синхр.</span>
           </div>
           <div class="prov-row">
             <div class="prov-logo" style="background:#3a3a3f" aria-hidden="true">O</div>
-            <div><div class="prov-name">Oracle Health</div><span class="prov-meta">Kaiser · pending auth</span></div>
-            <span class="pill pill-lt">Connect</span>
+            <div><div class="prov-name">Oracle Health</div><span class="prov-meta" data-en="Kaiser · pending auth">Kaiser · ожидает авторизации</span></div>
+            <span class="pill pill-lt" data-en="Connect">Подключить</span>
           </div>
         </div>
-        <div class="ehr-flow"><span class="ln"></span><span class="lbl">Encrypted · auto-parsed</span><span class="ln"></span></div>
+        <div class="ehr-flow" data-en="&lt;span class=&quot;ln&quot;&gt;&lt;/span&gt;&lt;span class=&quot;lbl&quot;&gt;Encrypted · auto-parsed&lt;/span&gt;&lt;span class=&quot;ln&quot;&gt;&lt;/span&gt;"><span class="ln"></span><span class="lbl">Зашифровано · разобрано автоматически</span><span class="ln"></span></div>
         <div class="ehr-dest">
           <div class="ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6m0 8v6M4 12H2m20 0h-2"/><circle cx="12" cy="12" r="4"/></svg></div>
-          <div class="t">Your living health record<span>One source of truth · always current</span></div>
+          <div class="t" data-en="Your living health record&lt;span&gt;One source of truth · always current&lt;/span&gt;">Ваша живая медицинская карта<span>Один источник правды · всегда актуален</span></div>
         </div>
       </div>
     </div>
@@ -1429,33 +1469,33 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
   <div class="sec-inner">
     <div class="voice-grid">
       <div>
-        <div class="kicker sr">Voice input</div>
-        <h2 class="disp h2 sr d1">Just <em>talk</em> to it.<br>Logging is over.</h2>
-        <p class="desc sr d2" style="margin-top:22px">Speak a meal, a workout, a symptom, a supplement. +Life parses, normalizes and files it — across the right pillars — with confirmation, not friction.</p>
+        <div class="kicker sr" data-en="Voice input">Голосовой ввод</div>
+        <h2 class="disp h2 sr d1" data-en="Just &lt;em&gt;talk&lt;/em&gt; to it.&lt;br&gt;Logging is over.">Просто <em>скажите</em>.<br>Ручной ввод закончился.</h2>
+        <p class="desc sr d2" style="margin-top:22px" data-en="Speak a meal, a workout, a symptom, a supplement. +Life parses, normalizes and files it — across the right pillars — with confirmation, not friction.">Скажите про приём пищи, тренировку, симптом, добавку. +Life разберёт, нормализует и разложит это по нужным основам — с подтверждением, а не с трением.</p>
         <div class="stack" style="margin-top:30px;gap:18px">
           <div class="ehr-bullet sr d1">
             <div class="ck" aria-hidden="true" style="background:rgba(57,255,110,0.12);border-color:rgba(57,255,110,0.3);color:var(--gr)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
-            <div><h4 style="color:var(--tx)">No forms. No taxonomy.</h4><p style="color:var(--tx2)">Speak in your own words. The model maps "two coffees and a bowl of yogurt" to actual macros and timing.</p></div>
+            <div><h4 style="color:var(--tx)" data-en="No forms. No taxonomy.">Никаких форм и справочников.</h4><p style="color:var(--tx2)" data-en="Speak in your own words. The model maps &quot;two coffees and a bowl of yogurt&quot; to actual macros and timing.">Говорите своими словами. Модель превращает «два кофе и тарелку йогурта» в реальные БЖУ и время приёма.</p></div>
           </div>
           <div class="ehr-bullet sr d2">
             <div class="ck" aria-hidden="true" style="background:rgba(57,255,110,0.12);border-color:rgba(57,255,110,0.3);color:var(--gr)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <div><h4 style="color:var(--tx)">Confirmed before it lands</h4><p style="color:var(--tx2)">Every entry shows you what was understood and where it was filed. Tap to correct, never twice.</p></div>
+            <div><h4 style="color:var(--tx)" data-en="Confirmed before it lands">Подтверждение до записи</h4><p style="color:var(--tx2)" data-en="Every entry shows you what was understood and where it was filed. Tap to correct, never twice.">Каждая запись показывает, что было понято и куда занесено. Одно касание, чтобы поправить, — и никогда дважды.</p></div>
           </div>
           <div class="ehr-bullet sr d3">
             <div class="ck" aria-hidden="true" style="background:rgba(57,255,110,0.12);border-color:rgba(57,255,110,0.3);color:var(--gr)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-            <div><h4 style="color:var(--tx)">10 seconds, end of day</h4><p style="color:var(--tx2)">A 10-second voice memo replaces 10 minutes of tapping across three apps. That's the only logging you do.</p></div>
+            <div><h4 style="color:var(--tx)" data-en="10 seconds, end of day">10 секунд в конце дня</h4><p style="color:var(--tx2)" data-en="A 10-second voice memo replaces 10 minutes of tapping across three apps. That&#x27;s the only logging you do.">Голосовая заметка на 10 секунд заменяет 10 минут тыканья в трёх приложениях. Это весь ваш ручной ввод.</p></div>
           </div>
         </div>
       </div>
 
       <div class="voice-mock sr right">
-        <div class="voice-head"><span class="t">Voice log · Tuesday</span><span class="rec"><i aria-hidden="true"></i>Listening</span></div>
-        <div class="v-grp right"><span class="v-lbl">You · 7:42 PM</span><div class="v-msg me">"Had grilled salmon, half a sweet potato, big salad with olive oil. Took my magnesium."</div></div>
-        <div class="v-sys">Parsed · 4 items</div>
-        <div class="v-grp"><span class="v-lbl">+Life · confirmed</span><div class="v-msg ai">Logged dinner: <strong>~38g protein, 32g carbs, 22g fat</strong>. Filed magnesium glycinate to your <strong>evening stack</strong>. Updated today's macro totals.</div></div>
-        <div class="v-grp right"><span class="v-lbl">You · 7:43 PM</span><div class="v-msg me">"Felt a little wired today, slept poorly."</div></div>
-        <div class="v-grp"><span class="v-lbl">+Life · cross-pillar</span><div class="v-msg ai">Noted. I'm seeing your <strong>caffeine logged at 3:40 PM</strong>. Want me to suggest a 10am cutoff for the rest of the week and watch HRV?</div></div>
-        <div class="v-mic" aria-hidden="true"><span>Tap to speak</span><div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        <div class="voice-head" data-en="&lt;span class=&quot;t&quot;&gt;Voice log · Tuesday&lt;/span&gt;&lt;span class=&quot;rec&quot;&gt;&lt;i aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;Listening&lt;/span&gt;"><span class="t">Голосовой дневник · вторник</span><span class="rec"><i aria-hidden="true"></i>Слушаю</span></div>
+        <div class="v-grp right"><span class="v-lbl" data-en="You · 7:42 PM">Вы · 19:42</span><div class="v-msg me" data-en="&quot;Had grilled salmon, half a sweet potato, big salad with olive oil. Took my magnesium.&quot;">«Съел лосося на гриле, половину батата, большой салат с оливковым маслом. Принял магний.»</div></div>
+        <div class="v-sys" data-en="Parsed · 4 items">Разобрано · 4 позиции</div>
+        <div class="v-grp"><span class="v-lbl" data-en="+Life · confirmed">+Life · подтверждено</span><div class="v-msg ai" data-en="Logged dinner: &lt;strong&gt;~38g protein, 32g carbs, 22g fat&lt;/strong&gt;. Filed magnesium glycinate to your &lt;strong&gt;evening stack&lt;/strong&gt;. Updated today&#x27;s macro totals.">Ужин записан: <strong>~38 г белка, 32 г углеводов, 22 г жиров</strong>. Магний глицинат добавлен в <strong>вечерний набор</strong>. Итоги по БЖУ за день обновлены.</div></div>
+        <div class="v-grp right"><span class="v-lbl" data-en="You · 7:43 PM">Вы · 19:43</span><div class="v-msg me" data-en="&quot;Felt a little wired today, slept poorly.&quot;">«Днём было какое-то взвинченное состояние, спал плохо.»</div></div>
+        <div class="v-grp"><span class="v-lbl" data-en="+Life · cross-pillar">+Life · связь основ</span><div class="v-msg ai" data-en="Noted. I&#x27;m seeing your &lt;strong&gt;caffeine logged at 3:40 PM&lt;/strong&gt;. Want me to suggest a 10am cutoff for the rest of the week and watch HRV?">Принято. Вижу, что <strong>кофеин записан в 15:40</strong>. Предложить последний кофе до 10:00 на остаток недели и следить за HRV?</div></div>
+        <div class="v-mic" aria-hidden="true"><span data-en="Tap to speak">Нажмите, чтобы говорить</span><div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
       </div>
     </div>
   </div>
@@ -1466,27 +1506,27 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
      ============================================================ -->
 <section class="sec s-light" id="insight">
   <div class="sec-inner">
-    <div class="kicker sr">How it thinks</div>
-    <h2 class="disp h2 sr d1">Every insight comes with its <em>reasoning</em>.</h2>
-    <p class="desc sr d2" style="margin-top:22px">Nothing is a black box. Every recommendation shows you exactly which signals it pulled, how it combined them, and what it concluded — so you can trust it, or push back.</p>
+    <div class="kicker sr" data-en="How it thinks">Как она думает</div>
+    <h2 class="disp h2 sr d1" data-en="Every insight comes with its &lt;em&gt;reasoning&lt;/em&gt;.">У каждого инсайта есть его <em>обоснование</em>.</h2>
+    <p class="desc sr d2" style="margin-top:22px" data-en="Nothing is a black box. Every recommendation shows you exactly which signals it pulled, how it combined them, and what it concluded — so you can trust it, or push back.">Никаких чёрных ящиков. Каждая рекомендация показывает, какие сигналы она взяла, как их соединила и что из этого заключила — чтобы вы могли ей довериться или возразить.</p>
 
     <div class="reason-panel sr up">
       <div class="reason-case">
-        <div class="meta">Case · low energy, week of Apr 22</div>
-        <h3>From "I'm flat" to a <em>specific</em> next move, in five steps.</h3>
-        <p>A real example of how +Life chained four pillars together to find the actual cause — and the smallest change that fixes it.</p>
+        <div class="meta" data-en="Case · low energy, week of Apr 22 · demo">Кейс · упадок сил, неделя 22 апреля · демо</div>
+        <h3 data-en="From &quot;I&#x27;m flat&quot; to a &lt;em&gt;specific&lt;/em&gt; next move, in five steps.">От «я вялый» до <em>конкретного</em> шага — за пять шагов.</h3>
+        <p data-en="A real example of how +Life chained four pillars together to find the actual cause — and the smallest change that fixes it.">Пример того, как +Life связала четыре основы, чтобы найти настоящую причину — и наименьшее изменение, которое её убирает.</p>
         <div style="margin-top:24px;display:flex;align-items:center;gap:12px">
-          <span class="mono" style="color:var(--gr2)">Confidence</span>
+          <span class="mono" style="color:var(--gr2)" data-en="Confidence">Уверенность</span>
           <div style="flex:1;max-width:140px" class="bar bar-gr"><i style="width:88%;background:var(--gr2)"></i></div>
           <span style="font-family:var(--fm);font-size:11px;color:var(--tx-lt)">88%</span>
         </div>
       </div>
       <div class="reason-chain">
-        <div class="reason-step"><div class="num">1</div><div class="body"><span class="lab">Trigger</span>You reported low energy 3 days running, gym sessions felt heavy.</div></div>
-        <div class="reason-step"><div class="num">2</div><div class="body"><span class="lab">Sleep pillar</span>HRV down <strong>18%</strong> over 5 nights. Deep sleep averaging <strong>52 min</strong>, vs your 84-min baseline.</div></div>
-        <div class="reason-step"><div class="num">3</div><div class="body"><span class="lab">Clinical pillar</span>Last panel showed <strong>ferritin at 38 ng/mL</strong> — within lab range, but in your bottom quartile historically.</div></div>
-        <div class="reason-step"><div class="num">4</div><div class="body"><span class="lab">Nutrition pillar</span>Iron intake fell to <strong>~9mg/day</strong> after you cut red meat 6 weeks ago. No replacement source logged.</div></div>
-        <div class="reason-step final"><div class="num">5</div><div class="body"><span class="lab">Conclusion · suggested move</span>Recovery debt + iron shortfall, not training plateau. <strong>Re-test ferritin in 14 days, add iron-rich meals 3x/week, deload one cycle.</strong> Projected HRV recovery: +22% in a week.</div></div>
+        <div class="reason-step"><div class="num">1</div><div class="body" data-en="&lt;span class=&quot;lab&quot;&gt;Trigger&lt;/span&gt;You reported low energy 3 days running, gym sessions felt heavy."><span class="lab">Повод</span>Вы три дня подряд отмечали упадок сил, тренировки шли тяжело.</div></div>
+        <div class="reason-step"><div class="num">2</div><div class="body" data-en="&lt;span class=&quot;lab&quot;&gt;Sleep pillar&lt;/span&gt;HRV down &lt;strong&gt;18%&lt;/strong&gt; over 5 nights. Deep sleep averaging &lt;strong&gt;52 min&lt;/strong&gt;, vs your 84-min baseline."><span class="lab">Основа «сон»</span>HRV ниже на <strong>18%</strong> за 5 ночей. Глубокий сон в среднем <strong>52 мин</strong> против вашей базы 84 мин.</div></div>
+        <div class="reason-step"><div class="num">3</div><div class="body" data-en="&lt;span class=&quot;lab&quot;&gt;Clinical pillar&lt;/span&gt;Last panel showed &lt;strong&gt;ferritin at 38 ng/mL&lt;/strong&gt; — within lab range, but in your bottom quartile historically."><span class="lab">Основа «клиника»</span>Последняя панель показала <strong>ферритин 38 нг/мл</strong> — в пределах нормы лаборатории, но в вашем нижнем квартиле за всю историю.</div></div>
+        <div class="reason-step"><div class="num">4</div><div class="body" data-en="&lt;span class=&quot;lab&quot;&gt;Nutrition pillar&lt;/span&gt;Iron intake fell to &lt;strong&gt;~9mg/day&lt;/strong&gt; after you cut red meat 6 weeks ago. No replacement source logged."><span class="lab">Основа «питание»</span>Поступление железа упало до <strong>~9 мг в день</strong> после того, как 6 недель назад вы убрали красное мясо. Замены не зафиксировано.</div></div>
+        <div class="reason-step final"><div class="num">5</div><div class="body" data-en="&lt;span class=&quot;lab&quot;&gt;Conclusion · suggested move&lt;/span&gt;Recovery debt + iron shortfall, not training plateau. &lt;strong&gt;Re-test ferritin in 14 days, add iron-rich meals 3x/week, deload one cycle.&lt;/strong&gt; Projected HRV recovery: +22% in a week."><span class="lab">Вывод · предлагаемый шаг</span>Долг восстановления плюс дефицит железа, а не тренировочное плато. <strong>Повторить ферритин через 14 дней, добавить богатые железом приёмы пищи 3 раза в неделю, снять один цикл нагрузки.</strong> Прогноз восстановления HRV: +22% за неделю.</div></div>
       </div>
     </div>
   </div>
@@ -1499,48 +1539,48 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
   <div class="sec-inner">
     <div class="coun-grid">
       <div>
-        <div class="kicker sr">AI council</div>
-        <h2 class="disp h2 sr d1">An <em>AI council</em> of specialists, one calm answer.</h2>
-        <p class="desc sr d2" style="margin-top:22px">Behind every recommendation, multiple specialist agents debate your case from their lens — cardiology, endocrinology, sleep, gut, behavior. You see the synthesis. You can also see them argue.</p>
+        <div class="kicker sr" data-en="AI council">AI-совет</div>
+        <h2 class="disp h2 sr d1" data-en="An &lt;em&gt;AI council&lt;/em&gt; of specialists, one calm answer."><em>AI-совет</em> специалистов — один спокойный ответ.</h2>
+        <p class="desc sr d2" style="margin-top:22px" data-en="Behind every recommendation, multiple specialist agents debate your case from their lens — cardiology, endocrinology, sleep, gut, behavior. You see the synthesis. You can also see them argue.">За каждой рекомендацией несколько профильных агентов разбирают ваш случай со своей стороны — кардиология, эндокринология, сон, ЖКТ, поведение. Вы видите синтез. А можете посмотреть и сам спор.</p>
 
         <div class="coun-list">
           <div class="coun-agent sr d1">
             <div class="coun-ico" style="background:rgba(99,102,241,0.12);color:#818cf8" aria-hidden="true">🫀</div>
-            <div><div class="coun-name">Cardiology</div><span class="coun-style">Conservative · risk-first</span></div>
-            <div class="coun-desc">ApoB, Lp(a), CAC, BP — long-arc cardiovascular risk.</div>
+            <div><div class="coun-name" data-en="Cardiology">Кардиология</div><span class="coun-style" data-en="Conservative · risk-first">Консервативно · риск в первую очередь</span></div>
+            <div class="coun-desc" data-en="ApoB, Lp(a), CAC, BP — long-arc cardiovascular risk.">ApoB, Lp(a), CAC, давление — сердечно-сосудистый риск на длинной дуге.</div>
           </div>
           <div class="coun-agent sr d2">
             <div class="coun-ico" style="background:rgba(251,146,60,0.12);color:#fb923c" aria-hidden="true">🥗</div>
-            <div><div class="coun-name">Gastroenterology</div><span class="coun-style">Empirical · gut-first</span></div>
-            <div class="coun-desc">Microbiome, fiber load, food sensitivities, transit.</div>
+            <div><div class="coun-name" data-en="Gastroenterology">Гастроэнтерология</div><span class="coun-style" data-en="Empirical · gut-first">Эмпирично · ЖКТ в первую очередь</span></div>
+            <div class="coun-desc" data-en="Microbiome, fiber load, food sensitivities, transit.">Микробиом, клетчатка, пищевые непереносимости, транзит.</div>
           </div>
           <div class="coun-agent sr d3">
             <div class="coun-ico" style="background:rgba(77,212,255,0.12);color:#4dd4ff" aria-hidden="true">😴</div>
-            <div><div class="coun-name">Sleep medicine</div><span class="coun-style">Evidence-led · stage-aware</span></div>
-            <div class="coun-desc">Architecture, HRV recovery, light timing.</div>
+            <div><div class="coun-name" data-en="Sleep medicine">Медицина сна</div><span class="coun-style" data-en="Evidence-led · stage-aware">По доказательствам · с учётом фаз</span></div>
+            <div class="coun-desc" data-en="Architecture, HRV recovery, light timing.">Архитектура, восстановление HRV, тайминг света.</div>
           </div>
           <div class="coun-agent sr d4">
             <div class="coun-ico" style="background:rgba(192,132,252,0.12);color:#c084fc" aria-hidden="true">🧬</div>
-            <div><div class="coun-name">Genomics</div><span class="coun-style">Variant-aware · pathway-first</span></div>
-            <div class="coun-desc">SNPs, PRS, methylation, pharmacogenomics.</div>
+            <div><div class="coun-name" data-en="Genomics">Геномика</div><span class="coun-style" data-en="Variant-aware · pathway-first">С учётом вариантов · через пути</span></div>
+            <div class="coun-desc" data-en="SNPs, PRS, methylation, pharmacogenomics.">SNP, PRS, метилирование, фармакогенетика.</div>
           </div>
           <div class="coun-agent sr d5">
             <div class="coun-ico" style="background:rgba(241,196,15,0.12);color:var(--am)" aria-hidden="true">⚖️</div>
-            <div><div class="coun-name">Endocrinology</div><span class="coun-style">Hormonal · cycle-aware</span></div>
-            <div class="coun-desc">Thyroid, cortisol, sex-hormone balance over time.</div>
+            <div><div class="coun-name" data-en="Endocrinology">Эндокринология</div><span class="coun-style" data-en="Hormonal · cycle-aware">Гормонально · с учётом цикла</span></div>
+            <div class="coun-desc" data-en="Thyroid, cortisol, sex-hormone balance over time.">Щитовидная железа, кортизол, баланс половых гормонов во времени.</div>
           </div>
         </div>
       </div>
 
       <div class="deb sr right">
-        <div class="deb-head"><span class="t">Council debate · case 04-22</span><span class="mono" style="color:var(--gr)">live</span></div>
-        <div class="deb-q">"Why is my LDL still climbing after 8 weeks of diet changes?"</div>
+        <div class="deb-head" data-en="&lt;span class=&quot;t&quot;&gt;Council debate · demo case 04-22&lt;/span&gt;&lt;span class=&quot;mono&quot; style=&quot;color:var(--gr)&quot;&gt;live&lt;/span&gt;"><span class="t">Обсуждение совета · демо-кейс 04-22</span><span class="mono" style="color:var(--gr)">live</span></div>
+        <div class="deb-q" data-en="&quot;Why is my LDL still climbing after 8 weeks of diet changes?&quot;">«Почему LDL всё ещё растёт после 8 недель изменений в питании?»</div>
 
-        <div class="deb-bub deb-card"><span class="lbl">Cardiology · 14:32</span>Diet alone won't move LDL fast for genetic responders. ApoE 3/4 is in this profile — recommend re-baseline at 12 weeks, prepare to consider statin if Lp(a) stays high.</div>
-        <div class="deb-bub deb-gas"><span class="lbl">Gastroenterology · 14:33</span>Fiber intake jumped to 38g, that should help. Saturated fat from dairy is still 18g — that's likely the active driver. Suggest swap to olive oil + nuts for 6 weeks before escalating.</div>
-        <div class="deb-bub deb-sleep"><span class="lbl">Sleep medicine · 14:34</span>Sleep debt is suppressing leptin and pushing appetite for high-fat snacks. Architecture is the upstream lever here — fix sleep first, then re-measure.</div>
+        <div class="deb-bub deb-card" data-en="&lt;span class=&quot;lbl&quot;&gt;Cardiology · 14:32&lt;/span&gt;Diet alone won&#x27;t move LDL fast for genetic responders. ApoE 3/4 is in this profile — recommend re-baseline at 12 weeks, prepare to consider statin if Lp(a) stays high."><span class="lbl">Кардиология · 14:32</span>Одним питанием LDL быстро не сдвинуть у генетических респондеров. В профиле ApoE 3/4 — рекомендую пересдать базу на 12-й неделе и быть готовым обсудить статин, если Lp(a) останется высоким.</div>
+        <div class="deb-bub deb-gas" data-en="&lt;span class=&quot;lbl&quot;&gt;Gastroenterology · 14:33&lt;/span&gt;Fiber intake jumped to 38g, that should help. Saturated fat from dairy is still 18g — that&#x27;s likely the active driver. Suggest swap to olive oil + nuts for 6 weeks before escalating."><span class="lbl">Гастроэнтерология · 14:33</span>Клетчатка выросла до 38 г, это должно помочь. Насыщенные жиры из молочного всё ещё 18 г — скорее всего, именно это и работает. Предлагаю заменить на оливковое масло и орехи на 6 недель, прежде чем эскалировать.</div>
+        <div class="deb-bub deb-sleep" data-en="&lt;span class=&quot;lbl&quot;&gt;Sleep medicine · 14:34&lt;/span&gt;Sleep debt is suppressing leptin and pushing appetite for high-fat snacks. Architecture is the upstream lever here — fix sleep first, then re-measure."><span class="lbl">Медицина сна · 14:34</span>Недосып подавляет лептин и тянет к жирным перекусам. Архитектура сна здесь верхний рычаг — сначала сон, потом повторное измерение.</div>
 
-        <div class="deb-bub deb-syn"><span class="lbl">+ Life synthesis</span>The council agrees: <strong>diet alone is unlikely to be enough</strong>, but the smallest high-leverage move is to <strong>swap dairy fat → olive oil + nuts for 6 weeks</strong> while also <strong>restoring sleep architecture</strong> (caffeine cutoff 10am). Re-test ApoB at 12 weeks. Statin conversation only if no movement by then.</div>
+        <div class="deb-bub deb-syn" data-en="&lt;span class=&quot;lbl&quot;&gt;+ Life synthesis&lt;/span&gt;The council agrees: &lt;strong&gt;diet alone is unlikely to be enough&lt;/strong&gt;, but the smallest high-leverage move is to &lt;strong&gt;swap dairy fat → olive oil + nuts for 6 weeks&lt;/strong&gt; while also &lt;strong&gt;restoring sleep architecture&lt;/strong&gt; (caffeine cutoff 10am). Re-test ApoB at 12 weeks. Statin conversation only if no movement by then."><span class="lbl">+ Life синтез</span>Совет согласен: <strong>одного питания, скорее всего, не хватит</strong>, но самый дешёвый и сильный шаг — <strong>заменить молочный жир на оливковое масло и орехи на 6 недель</strong>, одновременно <strong>восстановив архитектуру сна</strong> (последний кофе до 10:00). Пересдать ApoB на 12-й неделе. Разговор о статине — только если к этому моменту ничего не сдвинется.</div>
       </div>
     </div>
   </div>
@@ -1551,44 +1591,44 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
      ============================================================ -->
 <section class="sec s-light" id="passport">
   <div class="sec-inner">
-    <div class="kicker sr">Health passport</div>
-    <h2 class="disp h2 sr d1">Your whole health, on <em>one page</em>.</h2>
-    <p class="desc sr d2" style="margin-top:22px">A continuously updating, doctor-readable summary of you. Bring it to a visit, share it with a specialist, hand it to a new provider — instead of starting from scratch.</p>
+    <div class="kicker sr" data-en="Health passport">Паспорт здоровья</div>
+    <h2 class="disp h2 sr d1" data-en="Your whole health, on &lt;em&gt;one page&lt;/em&gt;.">Всё ваше здоровье на <em>одной странице</em>.</h2>
+    <p class="desc sr d2" style="margin-top:22px" data-en="A continuously updating, doctor-readable summary of you. Bring it to a visit, share it with a specialist, hand it to a new provider — instead of starting from scratch.">Непрерывно обновляемая выжимка о вас, которую может прочитать врач. Возьмите на приём, отправьте узкому специалисту, передайте новой клинике — вместо того чтобы начинать с нуля.</p>
 
     <div class="pass-grid">
       <div class="pass pass-lt sr up d1">
-        <div class="pass-head"><span class="t">+ Life passport · light</span><span class="pass-id">ID 4F8-219K · v.42</span></div>
-        <div><div class="pass-name">A. Ivanov<span class="role">Patient · 38 · M</span></div></div>
+        <div class="pass-head" data-en="&lt;span class=&quot;t&quot;&gt;+ Life passport · light&lt;/span&gt;&lt;span class=&quot;pass-id&quot;&gt;ID 4F8-219K · v.42&lt;/span&gt;"><span class="t">+ Life паспорт · светлый</span><span class="pass-id">ID 4F8-219K · v.42</span></div>
+        <div><div class="pass-name" data-en="A. Ivanov&lt;span class=&quot;role&quot;&gt;Patient · 38 · M&lt;/span&gt;">А. Иванов<span class="role">Пациент · 38 · М</span></div></div>
         <div class="pass-rows">
-          <div class="pass-row"><span>Resting HR / HRV</span><span class="v">52 / 64ms</span></div>
-          <div class="pass-row"><span>BP (7-day avg)</span><span class="v">118 / 76</span></div>
-          <div class="pass-row"><span>ApoB · LDL · Lp(a)</span><span class="v">78 · 102 · 14</span></div>
-          <div class="pass-row"><span>Fasting glucose · HbA1c</span><span class="v">88 · 5.2</span></div>
-          <div class="pass-row"><span>Vit D · Ferritin · B12</span><span class="v">42 · 38 · 412</span></div>
-          <div class="pass-row"><span>VO₂ max</span><span class="v">48</span></div>
+          <div class="pass-row" data-en="&lt;span&gt;Resting HR / HRV&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;52 / 64ms&lt;/span&gt;"><span>Пульс покоя / HRV</span><span class="v">52 / 64 мс</span></div>
+          <div class="pass-row" data-en="&lt;span&gt;BP (7-day avg)&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;118 / 76&lt;/span&gt;"><span>Давление (среднее за 7 дней)</span><span class="v">118 / 76</span></div>
+          <div class="pass-row" data-en="&lt;span&gt;ApoB · LDL · Lp(a)&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;78 · 102 · 14&lt;/span&gt;"><span>ApoB · LDL · Lp(a)</span><span class="v">78 · 102 · 14</span></div>
+          <div class="pass-row" data-en="&lt;span&gt;Fasting glucose · HbA1c&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;88 · 5.2&lt;/span&gt;"><span>Глюкоза натощак · HbA1c</span><span class="v">88 · 5,2</span></div>
+          <div class="pass-row" data-en="&lt;span&gt;Vit D · Ferritin · B12&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;42 · 38 · 412&lt;/span&gt;"><span>Вит. D · Ферритин · B12</span><span class="v">42 · 38 · 412</span></div>
+          <div class="pass-row" data-en="&lt;span&gt;VO₂ max&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;48&lt;/span&gt;"><span>VO₂ max</span><span class="v">48</span></div>
         </div>
         <div class="pass-doc">
           <div class="ico" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-          <div class="t">Visit summary · 1 page<span>Updated 2 minutes ago</span></div>
-          <div class="pass-chips"><span class="badge badge-gr">OK 18</span><span class="badge badge-am">Watch 3</span><span class="badge badge-rd">Miss 1</span></div>
+          <div class="t" data-en="Visit summary · 1 page&lt;span&gt;Updated 2 minutes ago&lt;/span&gt;">Выписка к визиту · 1 страница<span>Обновлено 2 минуты назад</span></div>
+          <div class="pass-chips" data-en="&lt;span class=&quot;badge badge-gr&quot;&gt;OK 18&lt;/span&gt;&lt;span class=&quot;badge badge-am&quot;&gt;Watch 3&lt;/span&gt;&lt;span class=&quot;badge badge-rd&quot;&gt;Miss 1&lt;/span&gt;"><span class="badge badge-gr">НОРМА 18</span><span class="badge badge-am">ВНИМАНИЕ 3</span><span class="badge badge-rd">ПРОБЕЛ 1</span></div>
         </div>
       </div>
 
       <div class="pass pass-dk sr up d2">
-        <div class="pass-head"><span class="t">+ Life passport · clinical</span><span class="pass-id">ID 4F8-219K · v.42</span></div>
-        <div><div class="pass-name">A. Ivanov<span class="role">Patient · 38 · M</span></div></div>
+        <div class="pass-head" data-en="&lt;span class=&quot;t&quot;&gt;+ Life passport · clinical&lt;/span&gt;&lt;span class=&quot;pass-id&quot;&gt;ID 4F8-219K · v.42&lt;/span&gt;"><span class="t">+ Life паспорт · клинический</span><span class="pass-id">ID 4F8-219K · v.42</span></div>
+        <div><div class="pass-name" data-en="A. Ivanov&lt;span class=&quot;role&quot;&gt;Patient · 38 · M&lt;/span&gt;">А. Иванов<span class="role">Пациент · 38 · М</span></div></div>
         <div class="pass-rows">
-          <div class="pass-row"><span>Resting HR / HRV</span><span class="v">52 / 64ms</span></div>
-          <div class="pass-row"><span>BP (7-day avg)</span><span class="v">118 / 76</span></div>
-          <div class="pass-row"><span>ApoB · LDL · Lp(a)</span><span class="v">78 · 102 · 14</span></div>
-          <div class="pass-row"><span>Fasting glucose · HbA1c</span><span class="v">88 · 5.2</span></div>
-          <div class="pass-row"><span>Vit D · Ferritin · B12</span><span class="v">42 · 38 · 412</span></div>
-          <div class="pass-row"><span>VO₂ max</span><span class="v">48</span></div>
+          <div class="pass-row" data-en="&lt;span&gt;Resting HR / HRV&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;52 / 64ms&lt;/span&gt;"><span>Пульс покоя / HRV</span><span class="v">52 / 64 мс</span></div>
+          <div class="pass-row" data-en="&lt;span&gt;BP (7-day avg)&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;118 / 76&lt;/span&gt;"><span>Давление (среднее за 7 дней)</span><span class="v">118 / 76</span></div>
+          <div class="pass-row" data-en="&lt;span&gt;ApoB · LDL · Lp(a)&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;78 · 102 · 14&lt;/span&gt;"><span>ApoB · LDL · Lp(a)</span><span class="v">78 · 102 · 14</span></div>
+          <div class="pass-row" data-en="&lt;span&gt;Fasting glucose · HbA1c&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;88 · 5.2&lt;/span&gt;"><span>Глюкоза натощак · HbA1c</span><span class="v">88 · 5,2</span></div>
+          <div class="pass-row" data-en="&lt;span&gt;Vit D · Ferritin · B12&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;42 · 38 · 412&lt;/span&gt;"><span>Вит. D · Ферритин · B12</span><span class="v">42 · 38 · 412</span></div>
+          <div class="pass-row" data-en="&lt;span&gt;VO₂ max&lt;/span&gt;&lt;span class=&quot;v&quot;&gt;48&lt;/span&gt;"><span>VO₂ max</span><span class="v">48</span></div>
         </div>
         <div class="pass-doc">
           <div class="ico" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-          <div class="t">Specialist export · PDF<span>Encrypted, single-share link</span></div>
-          <div class="pass-chips"><span class="badge badge-gr">OK 18</span><span class="badge badge-am">Watch 3</span><span class="badge badge-rd">Miss 1</span></div>
+          <div class="t" data-en="Specialist export · PDF&lt;span&gt;Encrypted, single-share link&lt;/span&gt;">Экспорт для специалиста · PDF<span>Зашифровано, ссылка на один раз</span></div>
+          <div class="pass-chips" data-en="&lt;span class=&quot;badge badge-gr&quot;&gt;OK 18&lt;/span&gt;&lt;span class=&quot;badge badge-am&quot;&gt;Watch 3&lt;/span&gt;&lt;span class=&quot;badge badge-rd&quot;&gt;Miss 1&lt;/span&gt;"><span class="badge badge-gr">НОРМА 18</span><span class="badge badge-am">ВНИМАНИЕ 3</span><span class="badge badge-rd">ПРОБЕЛ 1</span></div>
         </div>
       </div>
     </div>
@@ -1602,39 +1642,39 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
   <div class="sec-inner" style="padding-top:100px;border-top:1px solid #ddd8ce">
     <div class="visit-grid">
       <div>
-        <div class="kicker sr">Visit prep</div>
-        <h2 class="disp h2 sr d1">Walk in <em>prepared</em>.<br>Walk out with answers.</h2>
-        <p class="desc sr d2" style="margin-top:22px">+Life builds a 1-page briefing before every visit — what's changed since last time, what's flagged, what to ask. Your 15-minute slot stops being a fishing trip.</p>
+        <div class="kicker sr" data-en="Visit prep">Подготовка к визиту</div>
+        <h2 class="disp h2 sr d1" data-en="Walk in &lt;em&gt;prepared&lt;/em&gt;.&lt;br&gt;Walk out with answers.">Приходите <em>подготовленным</em>.<br>Уходите с ответами.</h2>
+        <p class="desc sr d2" style="margin-top:22px" data-en="+Life builds a 1-page briefing before every visit — what&#x27;s changed since last time, what&#x27;s flagged, what to ask. Your 15-minute slot stops being a fishing trip.">+Life собирает брифинг на одну страницу перед каждым визитом: что изменилось с прошлого раза, что помечено, о чём спросить. Ваши 15 минут перестают быть рыбалкой.</p>
         <div class="stack" style="margin-top:30px;gap:18px">
-          <div class="ehr-bullet sr d1"><div class="ck" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4>Pre-built question list</h4><p>The 3–5 questions worth asking, ranked by what's actually changed.</p></div></div>
-          <div class="ehr-bullet sr d2"><div class="ck" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4>Trends, not snapshots</h4><p>Every marker shown in trend, not as one anxious dot.</p></div></div>
-          <div class="ehr-bullet sr d3"><div class="ck" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4>Shareable in one tap</h4><p>Send to your provider's portal or print. Their EHR can ingest it directly.</p></div></div>
+          <div class="ehr-bullet sr d1"><div class="ck" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4 data-en="Pre-built question list">Готовый список вопросов</h4><p data-en="The 3–5 questions worth asking, ranked by what&#x27;s actually changed.">3–5 вопросов, которые стоит задать, отсортированы по тому, что реально изменилось.</p></div></div>
+          <div class="ehr-bullet sr d2"><div class="ck" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4 data-en="Trends, not snapshots">Тренды, а не снимки</h4><p data-en="Every marker shown in trend, not as one anxious dot.">Каждый маркер показан в тренде, а не одной тревожной точкой.</p></div></div>
+          <div class="ehr-bullet sr d3"><div class="ck" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4 data-en="Shareable in one tap">Отправляется одним касанием</h4><p data-en="Send to your provider&#x27;s portal or print. Their EHR can ingest it directly.">Отправьте в кабинет клиники или распечатайте. Их EHR может принять это напрямую.</p></div></div>
         </div>
       </div>
 
       <div class="visit-card sr right">
-        <div class="visit-head"><span class="t">Pre-visit briefing · Dr. Liu · primary care</span><span class="when">Apr 30 · 9:30 AM</span></div>
+        <div class="visit-head" data-en="&lt;span class=&quot;t&quot;&gt;Pre-visit briefing · Dr. Liu · primary care · demo&lt;/span&gt;&lt;span class=&quot;when&quot;&gt;Apr 30 · 9:30 AM&lt;/span&gt;"><span class="t">Брифинг перед визитом · д-р Лю · терапевт · демо</span><span class="when">30 апр · 9:30</span></div>
         <div class="visit-block">
-          <span class="lab">What's changed since last visit</span>
+          <span class="lab" data-en="What&#x27;s changed since last visit">Что изменилось с прошлого визита</span>
           <ul>
-            <li><span class="b" aria-hidden="true"></span>HRV down <strong>18%</strong> over 5 nights, still recovering<span class="v">7 days</span></li>
-            <li><span class="b" aria-hidden="true"></span>Ferritin trending toward bottom quartile<span class="v">3 mo</span></li>
-            <li><span class="b" aria-hidden="true"></span>ApoB up <strong>+12 mg/dL</strong> after diet change<span class="v">8 wk</span></li>
+            <li data-en="&lt;span class=&quot;b&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;HRV down &lt;strong&gt;18%&lt;/strong&gt; over 5 nights, still recovering&lt;span class=&quot;v&quot;&gt;7 days&lt;/span&gt;"><span class="b" aria-hidden="true"></span>HRV ниже на <strong>18%</strong> за 5 ночей, всё ещё восстанавливается<span class="v">7 дней</span></li>
+            <li data-en="&lt;span class=&quot;b&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Ferritin trending toward bottom quartile&lt;span class=&quot;v&quot;&gt;3 mo&lt;/span&gt;"><span class="b" aria-hidden="true"></span>Ферритин движется к нижнему квартилю<span class="v">3 мес</span></li>
+            <li data-en="&lt;span class=&quot;b&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;ApoB up &lt;strong&gt;+12 mg/dL&lt;/strong&gt; after diet change&lt;span class=&quot;v&quot;&gt;8 wk&lt;/span&gt;"><span class="b" aria-hidden="true"></span>ApoB вырос на <strong>+12 мг/дл</strong> после смены питания<span class="v">8 нед</span></li>
           </ul>
         </div>
         <div class="visit-block">
-          <span class="lab">Worth asking</span>
+          <span class="lab" data-en="Worth asking">О чём стоит спросить</span>
           <ul>
-            <li><span class="b" aria-hidden="true"></span>Repeat iron panel today — can we draw it before I leave?<span class="v">5 min</span></li>
-            <li><span class="b" aria-hidden="true"></span>Lp(a) is normal but ApoE is 3/4 — re-baseline lipids at 12 weeks?<span class="v">discuss</span></li>
-            <li><span class="b" aria-hidden="true"></span>Sleep medicine referral worth it given HRV pattern?<span class="v">discuss</span></li>
+            <li data-en="&lt;span class=&quot;b&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Repeat iron panel today — can we draw it before I leave?&lt;span class=&quot;v&quot;&gt;5 min&lt;/span&gt;"><span class="b" aria-hidden="true"></span>Пересдать панель по железу сегодня — можно взять кровь до того, как я уйду?<span class="v">5 мин</span></li>
+            <li data-en="&lt;span class=&quot;b&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Lp(a) is normal but ApoE is 3/4 — re-baseline lipids at 12 weeks?&lt;span class=&quot;v&quot;&gt;discuss&lt;/span&gt;"><span class="b" aria-hidden="true"></span>Lp(a) в норме, но ApoE 3/4 — пересдать липиды на 12-й неделе?<span class="v">обсудить</span></li>
+            <li data-en="&lt;span class=&quot;b&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Sleep medicine referral worth it given HRV pattern?&lt;span class=&quot;v&quot;&gt;discuss&lt;/span&gt;"><span class="b" aria-hidden="true"></span>Стоит ли направление к сомнологу при такой картине HRV?<span class="v">обсудить</span></li>
           </ul>
         </div>
         <div class="visit-block">
-          <span class="lab">Working list of meds & supps</span>
+          <span class="lab" data-en="Working list of meds &amp; supps">Текущий список препаратов и добавок</span>
           <ul>
-            <li><span class="b" aria-hidden="true"></span>Vit D3 5000 IU · Omega-3 2g · Magnesium glyc.<span class="v">daily</span></li>
-            <li><span class="b" aria-hidden="true"></span>Methylfolate 800 µg (MTHFR variant)<span class="v">daily</span></li>
+            <li data-en="&lt;span class=&quot;b&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Vit D3 5000 IU · Omega-3 2g · Magnesium glyc.&lt;span class=&quot;v&quot;&gt;daily&lt;/span&gt;"><span class="b" aria-hidden="true"></span>Вит. D3 5000 МЕ · Омега-3 2 г · Магний глицинат<span class="v">ежедневно</span></li>
+            <li data-en="&lt;span class=&quot;b&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Methylfolate 800 µg (MTHFR variant)&lt;span class=&quot;v&quot;&gt;daily&lt;/span&gt;"><span class="b" aria-hidden="true"></span>Метилфолат 800 мкг (вариант MTHFR)<span class="v">ежедневно</span></li>
           </ul>
         </div>
       </div>
@@ -1649,31 +1689,31 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
   <div class="sec-inner">
     <div class="rem-grid">
       <div>
-        <div class="kicker sr">Adaptive reminders</div>
-        <h2 class="disp h2 sr d1">Reminders that <em>rewrite</em> themselves when life moves.</h2>
-        <p class="desc sr d2" style="margin-top:22px">Static reminders fail the moment your day shifts. +Life watches the signal and reshapes the plan in real time — the nudge you actually needed, not the one you set last Sunday.</p>
+        <div class="kicker sr" data-en="Adaptive reminders">Адаптивные напоминания</div>
+        <h2 class="disp h2 sr d1" data-en="Reminders that &lt;em&gt;rewrite&lt;/em&gt; themselves when life moves.">Напоминания, которые <em>переписывают</em> себя, когда жизнь меняется.</h2>
+        <p class="desc sr d2" style="margin-top:22px" data-en="Static reminders fail the moment your day shifts. +Life watches the signal and reshapes the plan in real time — the nudge you actually needed, not the one you set last Sunday.">Статичные напоминания ломаются в тот момент, когда день сдвинулся. +Life смотрит на сигнал и перестраивает план в реальном времени — это тот толчок, который нужен сейчас, а не тот, что вы завели в прошлое воскресенье.</p>
       </div>
 
       <div class="rem-list sr right">
         <div class="rem-row">
-          <div class="rem-trig">Trigger · You skipped breakfast<span>9:48 AM</span></div>
-          <div class="rem-resp">Pushing your <strong>creatine + magnesium</strong> dose to your 11:30 lunch instead of pre-workout. Reset back to morning tomorrow if you eat earlier.<span class="meta">Auto-rescheduled · Nutrition pillar</span></div>
+          <div class="rem-trig" data-en="Trigger · You skipped breakfast&lt;span&gt;9:48 AM&lt;/span&gt;">Повод · вы пропустили завтрак<span>9:48</span></div>
+          <div class="rem-resp" data-en="Pushing your &lt;strong&gt;creatine + magnesium&lt;/strong&gt; dose to your 11:30 lunch instead of pre-workout. Reset back to morning tomorrow if you eat earlier.&lt;span class=&quot;meta&quot;&gt;Auto-rescheduled · Nutrition pillar&lt;/span&gt;">Переносим <strong>креатин и магний</strong> на обед в 11:30 вместо приёма до тренировки. Завтра вернём на утро, если поедите раньше.<span class="meta">Перенесено автоматически · основа «питание»</span></div>
         </div>
         <div class="rem-row">
-          <div class="rem-trig">Trigger · HRV down 14% overnight<span>7:02 AM</span></div>
-          <div class="rem-resp">Today's heavy session is now <strong>zone-2 + mobility</strong>. Reminder to push your lift to Thursday. Keeping protein target unchanged.<span class="meta">Auto-rewritten · Movement pillar</span></div>
+          <div class="rem-trig" data-en="Trigger · HRV down 14% overnight&lt;span&gt;7:02 AM&lt;/span&gt;">Повод · HRV упал на 14% за ночь<span>7:02</span></div>
+          <div class="rem-resp" data-en="Today&#x27;s heavy session is now &lt;strong&gt;zone-2 + mobility&lt;/strong&gt;. Reminder to push your lift to Thursday. Keeping protein target unchanged.&lt;span class=&quot;meta&quot;&gt;Auto-rewritten · Movement pillar&lt;/span&gt;">Тяжёлая тренировка сегодня заменена на <strong>zone-2 + мобильность</strong>. Напоминание перенести штангу на четверг. Цель по белку не меняем.<span class="meta">Переписано автоматически · основа «движение»</span></div>
         </div>
         <div class="rem-row">
-          <div class="rem-trig">Trigger · Travel day detected<span>5:14 AM</span></div>
-          <div class="rem-resp">Hydration target raised to <strong>3.4L</strong>. Caffeine cutoff moved to local 11am. Sleep window flagged 90 min earlier to offset jet lag.<span class="meta">Auto-adapted · Sleep pillar</span></div>
+          <div class="rem-trig" data-en="Trigger · Travel day detected&lt;span&gt;5:14 AM&lt;/span&gt;">Повод · обнаружен день перелёта<span>5:14</span></div>
+          <div class="rem-resp" data-en="Hydration target raised to &lt;strong&gt;3.4L&lt;/strong&gt;. Caffeine cutoff moved to local 11am. Sleep window flagged 90 min earlier to offset jet lag.&lt;span class=&quot;meta&quot;&gt;Auto-adapted · Sleep pillar&lt;/span&gt;">Цель по воде поднята до <strong>3,4 л</strong>. Последний кофе сдвинут на 11:00 по местному времени. Окно сна помечено на 90 минут раньше, чтобы сгладить джетлаг.<span class="meta">Адаптировано автоматически · основа «сон»</span></div>
         </div>
         <div class="rem-row">
-          <div class="rem-trig">Trigger · Cold symptoms logged<span>9:12 PM</span></div>
-          <div class="rem-resp">Pausing your training reminders for 48h. Vit D + zinc bumped, ibuprofen suggested only if you cross fever threshold. Will re-check tomorrow.<span class="meta">Auto-paused · Immune signal</span></div>
+          <div class="rem-trig" data-en="Trigger · Cold symptoms logged&lt;span&gt;9:12 PM&lt;/span&gt;">Повод · внесены симптомы простуды<span>21:12</span></div>
+          <div class="rem-resp" data-en="Pausing your training reminders for 48h. Vit D + zinc bumped, ibuprofen suggested only if you cross fever threshold. Will re-check tomorrow.&lt;span class=&quot;meta&quot;&gt;Auto-paused · Immune signal&lt;/span&gt;">Напоминания о тренировках на паузе 48 часов. Витамин D и цинк подняты, ибупрофен — только если перейдёте порог температуры. Проверим завтра.<span class="meta">Пауза автоматически · сигнал иммунитета</span></div>
         </div>
         <div class="rem-row">
-          <div class="rem-trig">Trigger · Period day 1 detected<span>6:30 AM</span></div>
-          <div class="rem-resp">Iron-rich meal suggestions added. Strength volume target lowered <strong>15%</strong> for 3 days. Sleep window extended 30 min.<span class="meta">Cycle-aware · Hormonal pillar</span></div>
+          <div class="rem-trig" data-en="Trigger · Period day 1 detected&lt;span&gt;6:30 AM&lt;/span&gt;">Повод · первый день цикла<span>6:30</span></div>
+          <div class="rem-resp" data-en="Iron-rich meal suggestions added. Strength volume target lowered &lt;strong&gt;15%&lt;/strong&gt; for 3 days. Sleep window extended 30 min.&lt;span class=&quot;meta&quot;&gt;Cycle-aware · Hormonal pillar&lt;/span&gt;">Добавлены варианты еды, богатой железом. Цель по силовому объёму снижена на <strong>15%</strong> на 3 дня. Окно сна расширено на 30 минут.<span class="meta">С учётом цикла · основа «гормоны»</span></div>
         </div>
       </div>
     </div>
@@ -1687,28 +1727,28 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
   <div class="sec-inner">
     <div class="coach-grid">
       <div>
-        <div class="kicker sr">Coaching</div>
-        <h2 class="disp h2 sr d1">A coach that <em>knows</em> you, not your category.</h2>
-        <p class="desc sr d2" style="margin-top:22px">Daily, conversational, available. It checks in when something shifts, not on a schedule. It celebrates the small wins and warns about the early signals — because it actually sees the data.</p>
+        <div class="kicker sr" data-en="Coaching">Коучинг</div>
+        <h2 class="disp h2 sr d1" data-en="A coach that &lt;em&gt;knows&lt;/em&gt; you, not your category.">Коуч, который знает <em>вас</em>, а не вашу категорию.</h2>
+        <p class="desc sr d2" style="margin-top:22px" data-en="Daily, conversational, available. It checks in when something shifts, not on a schedule. It celebrates the small wins and warns about the early signals — because it actually sees the data.">Ежедневно, в диалоге, всегда рядом. Он выходит на связь, когда что-то сдвинулось, а не по расписанию. Отмечает маленькие победы и предупреждает о ранних сигналах — потому что действительно видит данные.</p>
         <div class="stack" style="margin-top:30px;gap:18px">
-          <div class="ehr-bullet sr d1"><div class="ck" aria-hidden="true" style="background:rgba(57,255,110,0.12);border-color:rgba(57,255,110,0.3);color:var(--gr)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4 style="color:var(--tx)">Personal context, every reply</h4><p style="color:var(--tx2)">Knows your training history, your last labs, your sleep last night, your supplement stack.</p></div></div>
-          <div class="ehr-bullet sr d2"><div class="ck" aria-hidden="true" style="background:rgba(57,255,110,0.12);border-color:rgba(57,255,110,0.3);color:var(--gr)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4 style="color:var(--tx)">Proactive, not chatty</h4><p style="color:var(--tx2)">Stays quiet when nothing's wrong. Speaks up the moment a marker drifts.</p></div></div>
-          <div class="ehr-bullet sr d3"><div class="ck" aria-hidden="true" style="background:rgba(57,255,110,0.12);border-color:rgba(57,255,110,0.3);color:var(--gr)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4 style="color:var(--tx)">Asks for the next 1% — not the next overhaul</h4><p style="color:var(--tx2)">Tiny, sustainable nudges. The compounding kind.</p></div></div>
+          <div class="ehr-bullet sr d1"><div class="ck" aria-hidden="true" style="background:rgba(57,255,110,0.12);border-color:rgba(57,255,110,0.3);color:var(--gr)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4 style="color:var(--tx)" data-en="Personal context, every reply">Личный контекст в каждом ответе</h4><p style="color:var(--tx2)" data-en="Knows your training history, your last labs, your sleep last night, your supplement stack.">Знает историю ваших тренировок, последние анализы, сон этой ночью и набор добавок.</p></div></div>
+          <div class="ehr-bullet sr d2"><div class="ck" aria-hidden="true" style="background:rgba(57,255,110,0.12);border-color:rgba(57,255,110,0.3);color:var(--gr)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4 style="color:var(--tx)" data-en="Proactive, not chatty">Проактивно, но без болтовни</h4><p style="color:var(--tx2)" data-en="Stays quiet when nothing&#x27;s wrong. Speaks up the moment a marker drifts.">Молчит, когда всё в порядке. Говорит в ту минуту, когда маркер поехал.</p></div></div>
+          <div class="ehr-bullet sr d3"><div class="ck" aria-hidden="true" style="background:rgba(57,255,110,0.12);border-color:rgba(57,255,110,0.3);color:var(--gr)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4 style="color:var(--tx)" data-en="Asks for the next 1% — not the next overhaul">Просит следующий 1%, а не полную перестройку</h4><p style="color:var(--tx2)" data-en="Tiny, sustainable nudges. The compounding kind.">Маленькие устойчивые шаги. Те самые, что складываются в сложный процент.</p></div></div>
         </div>
       </div>
 
       <div class="coach-mock sr right">
         <div class="coach-head">
           <div class="coach-av" aria-hidden="true">+</div>
-          <div class="info"><div class="nm">+Life coach</div><div class="st"><span class="live-dot" aria-hidden="true"></span>Active · listening</div></div>
+          <div class="info"><div class="nm" data-en="+Life coach">Коуч +Life</div><div class="st" data-en="&lt;span class=&quot;live-dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;Active · listening"><span class="live-dot" aria-hidden="true"></span>Активен · слушает</div></div>
         </div>
 
-        <div class="coach-grp"><span class="coach-lbl">+Life · 7:14 AM</span><div class="coach-msg ai">Morning. HRV is back up to <strong>58ms</strong>, so today's lift is back on. Aim for <strong>~6 sets</strong> on squats, leave 2 reps in the tank.</div></div>
-        <div class="coach-evt">Supplements logged · 9:42 AM</div>
-        <div class="coach-grp right"><span class="coach-lbl">You · 12:30 PM</span><div class="coach-msg me">Been craving sweet stuff all morning, weird.</div></div>
-        <div class="coach-grp"><span class="coach-lbl">+Life · 12:31 PM</span><div class="coach-msg ai">You're <strong>~28g protein</strong> behind your morning target and you slept 6h 12m. That combo usually drives the craving for you. Try a higher-protein lunch first, see if it fades.</div></div>
-        <div class="coach-evt">Lunch logged · 1:14 PM · 42g protein</div>
-        <div class="coach-grp"><span class="coach-lbl">+Life · 3:30 PM</span><div class="coach-msg ai">Cravings should ease in the next hour. Logging this — pattern of <strong>poor sleep → carb-craving by noon</strong> in 7 of the last 10 short-sleep days.</div></div>
+        <div class="coach-grp"><span class="coach-lbl" data-en="+Life · 7:14 AM">+Life · 7:14</span><div class="coach-msg ai" data-en="Morning. HRV is back up to &lt;strong&gt;58ms&lt;/strong&gt;, so today&#x27;s lift is back on. Aim for &lt;strong&gt;~6 sets&lt;/strong&gt; on squats, leave 2 reps in the tank.">Доброе утро. HRV вернулся к <strong>58 мс</strong>, так что штанга сегодня в силе. Ориентир — <strong>~6 подходов</strong> в приседе, оставьте 2 повтора в запасе.</div></div>
+        <div class="coach-evt" data-en="Supplements logged · 9:42 AM">Добавки внесены · 9:42</div>
+        <div class="coach-grp right"><span class="coach-lbl" data-en="You · 12:30 PM">Вы · 12:30</span><div class="coach-msg me" data-en="Been craving sweet stuff all morning, weird.">Весь день тянет на сладкое, странно.</div></div>
+        <div class="coach-grp"><span class="coach-lbl" data-en="+Life · 12:31 PM">+Life · 12:31</span><div class="coach-msg ai" data-en="You&#x27;re &lt;strong&gt;~28g protein&lt;/strong&gt; behind your morning target and you slept 6h 12m. That combo usually drives the craving for you. Try a higher-protein lunch first, see if it fades.">Вы отстаёте от утренней цели на <strong>~28 г белка</strong> и спали 6 ч 12 м. У вас эта комбинация обычно и тянет на сладкое. Попробуйте сначала обед с большим количеством белка и посмотрите, отпустит ли.</div></div>
+        <div class="coach-evt" data-en="Lunch logged · 1:14 PM · 42g protein">Обед внесён · 13:14 · 42 г белка</div>
+        <div class="coach-grp"><span class="coach-lbl" data-en="+Life · 3:30 PM">+Life · 15:30</span><div class="coach-msg ai" data-en="Cravings should ease in the next hour. Logging this — pattern of &lt;strong&gt;poor sleep → carb-craving by noon&lt;/strong&gt; in 7 of the last 10 short-sleep days.">Тяга должна отпустить в течение часа. Фиксирую: паттерн <strong>плохой сон → тяга к углеводам к полудню</strong> в 7 из последних 10 дней с коротким сном.</div></div>
       </div>
     </div>
   </div>
@@ -1719,23 +1759,30 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
      ============================================================ -->
 <section class="sec s-light" id="physician">
   <div class="sec-inner">
-    <div class="kicker sr">Physician collaboration</div>
-    <h2 class="disp h2 sr d1">Built <em>with</em> physicians, used inside the visit.</h2>
-    <p class="desc sr d2" style="margin-top:22px">+Life isn't a wall between you and your provider. It's the brief they get before they walk in the room — and the record they update on the way out.</p>
+    <div class="kicker sr" data-en="Physician collaboration">Работа с врачами</div>
+    <h2 class="disp h2 sr d1" data-en="Built &lt;em&gt;with&lt;/em&gt; physicians, used inside the visit.">Сделано <em>вместе</em> с врачами и используется прямо на приёме.</h2>
+    <p class="desc sr d2" style="margin-top:22px" data-en="+Life isn&#x27;t a wall between you and your provider. It&#x27;s the brief they get before they walk in the room — and the record they update on the way out.">+Life — не стена между вами и вашим врачом. Это брифинг, который он получает до того, как войдёт в кабинет, и запись, которую он обновляет на выходе.</p>
 
     <div class="phys sr up">
       <div class="phys-mono" aria-hidden="true">DR</div>
       <div>
-        <blockquote>"My patients used to bring printouts and a list of half-remembered worries. Now they bring a +Life passport. I can see the trends, the cross-pillar links, and the questions worth asking — in the first <em>ninety seconds</em> of the visit. It changes what we can do in fifteen minutes."</blockquote>
+        <blockquote data-en="&quot;My patients used to bring printouts and a list of half-remembered worries. Now they bring a +Life passport. I can see the trends, the cross-pillar links, and the questions worth asking — in the first &lt;em&gt;ninety seconds&lt;/em&gt; of the visit. It changes what we can do in fifteen minutes.&quot;">«Мои пациенты раньше приносили распечатки и список полузабытых тревог. Теперь они приносят паспорт +Life. Я вижу тренды, связи между основами и вопросы, которые стоит задать, — в первые <em>девяносто секунд</em> приёма. Это меняет то, что можно сделать за пятнадцать минут.»</blockquote>
         <div class="phys-by">
-          <div class="who">Dr. Maya Reyes, MD<span> · Internal medicine, longevity</span></div>
-          <div class="ten">Clinical advisor · 14 years practice</div>
+          <div class="who" data-en="Dr. Maya Reyes, MD&lt;span&gt; · Internal medicine, longevity&lt;/span&gt;">Dr. Maya Reyes, MD<span> · терапия, долголетие</span></div>
+          <div class="ten" data-en="Illustrative example · not a real testimonial">Иллюстративный пример · не реальный отзыв</div>
         </div>
       </div>
     </div>
 
-    <div class="inst-row sr">
-      <span class="lbl">Used by clinicians at</span>
+    <div class="inst-row sr" data-en="
+      &lt;span class=&quot;lbl&quot;&gt;Benchmarked against&lt;/span&gt;
+      &lt;span class=&quot;nm&quot;&gt;Stanford Health&lt;/span&gt;
+      &lt;span class=&quot;nm&quot;&gt;UCSF&lt;/span&gt;
+      &lt;span class=&quot;nm&quot;&gt;Mount Sinai&lt;/span&gt;
+      &lt;span class=&quot;nm&quot;&gt;Cleveland Clinic&lt;/span&gt;
+      &lt;span class=&quot;nm&quot;&gt;Mass General&lt;/span&gt;
+    ">
+      <span class="lbl">Ориентируемся на клиники</span>
       <span class="nm">Stanford Health</span>
       <span class="nm">UCSF</span>
       <span class="nm">Mount Sinai</span>
@@ -1750,8 +1797,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
      ============================================================ -->
 <section class="statement" id="statement">
   <div class="statement-inner">
-    <h2 class="sr">No single app sees<br>the whole picture.<br><em>+Life does.</em></h2>
-    <p class="sr d1">Not another tracker. Not another chatbot. The single operating system your health has been waiting for — quiet when nothing is wrong, present when it matters, and finally, all of you in one place.</p>
+    <h2 class="sr" data-en="No single app sees&lt;br&gt;the whole picture.&lt;br&gt;&lt;em&gt;+Life does.&lt;/em&gt;">Ни одно приложение не видит<br>картину целиком.<br><em>+Life видит.</em></h2>
+    <p class="sr d1" data-en="Not another tracker. Not another chatbot. The single operating system your health has been waiting for — quiet when nothing is wrong, present when it matters, and finally, all of you in one place.">Не ещё один трекер. Не ещё один чат-бот. Та самая операционная система, которую ваше здоровье давно ждёт: тихая, когда всё в порядке, рядом — когда это важно, и наконец собравшая вас в одном месте.</p>
   </div>
 </section>
 
@@ -1761,21 +1808,21 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
 <section class="cta" id="cta">
   <canvas id="particleRing" aria-hidden="true"></canvas>
   <div class="cta-inner">
-    <div class="kicker sr">Your personal health OS</div>
-    <h2 class="sr d1">Own your <em>biology</em>.</h2>
+    <div class="kicker sr" data-en="Your personal health OS">Ваша личная ОС здоровья</div>
+    <h2 class="sr d1" data-en="Own your &lt;em&gt;biology&lt;/em&gt;.">Владейте своей <em>биологией</em>.</h2>
     <div class="cta-actions sr d2">
-      <a class="btn btn-pri" href="https://health-coach-theta.vercel.app" target="_blank" rel="noopener noreferrer">Get early access →</a>
-      <a class="btn btn-ghost" href="#">Watch demo</a>
+      <a class="btn btn-pri" href="https://health-coach-theta.vercel.app" target="_blank" rel="noopener noreferrer" data-en="Get early access →">Получить ранний доступ →</a>
+      <a class="btn btn-ghost" href="#features" data-en="See how it works">Как это работает</a>
     </div>
     <div class="cta-stores sr d3">
-      <a class="store-badge" href="#" aria-label="Download on the App Store">
+      <span class="store-badge soon">
         <svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-        <div class="col"><span class="a">Download on the</span><span class="b">App Store</span></div>
-      </a>
-      <a class="store-badge" href="#" aria-label="Get it on Google Play">
+        <div class="col" data-en="&lt;span class=&quot;a&quot;&gt;Coming soon to&lt;/span&gt;&lt;span class=&quot;b&quot;&gt;App Store&lt;/span&gt;"><span class="a">Скоро в</span><span class="b">App Store</span></div>
+      </span>
+      <span class="store-badge soon">
         <svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.61 1.81c-.39.39-.61.92-.61 1.49v17.4c0 .57.22 1.1.61 1.49l.07.06L13.4 12.5v-.27L3.68 1.75l-.07.06zm10.5 11.4l3.27 3.27-9.7 5.51c-.31.18-.66.18-.97.01l7.4-8.79zm0-3.42L6.71 1.01c.31-.17.66-.17.97.01l9.7 5.51-3.27 3.27zm6.3 1.71c.39.22.62.6.62 1s-.23.78-.62 1l-2.6 1.48-3.42-3.42 3.42-3.42 2.6 1.36z"/></svg>
-        <div class="col"><span class="a">Get it on</span><span class="b">Google Play</span></div>
-      </a>
+        <div class="col" data-en="&lt;span class=&quot;a&quot;&gt;Coming soon to&lt;/span&gt;&lt;span class=&quot;b&quot;&gt;Google Play&lt;/span&gt;"><span class="a">Скоро в</span><span class="b">Google Play</span></div>
+      </span>
     </div>
   </div>
 </section>
@@ -1794,16 +1841,37 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
           <line x1="15" y1="12" x2="21" y2="12"/>
         </g>
       </svg>
-      <span>© 2026 +Life · All rights reserved</span>
+      <span data-en="© 2026 +Life · All rights reserved">© 2026 +Life · Все права защищены</span>
     </div>
     <div class="foot-r">
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
-      <a href="#">Security</a>
-      <a href="#">Contact</a>
+      <a href="#legal" data-legal data-en="Privacy">Приватность</a>
+      <a href="#legal" data-legal data-en="Terms">Условия</a>
+      <a href="#legal" data-legal data-en="Security">Безопасность</a>
+      <a href="#legal" data-legal data-en="Contact">Контакты</a>
     </div>
   </div>
 </footer>
+
+<!-- ============================================================
+     §8.19 DOCUMENTS OVERLAY
+     ============================================================ -->
+<div class="legal" id="legal" hidden>
+  <div class="legal-box" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+    <div class="legal-head">
+      <div class="mono" id="legalTitle" data-en="Documents &amp;amp; security">Документы и безопасность</div>
+      <button class="legal-x" id="legalClose" type="button" aria-label="Закрыть" data-en-aria-label="Close">✕</button>
+    </div>
+    <h4 data-en="Privacy policy">Политика конфиденциальности</h4>
+    <p data-en="The document is being prepared. This is a concept page today: it does not collect personal health data.">Документ готовится к публикации. Сейчас это страница-концепт: персональные медицинские данные через неё не собираются.</p>
+    <h4 data-en="Terms of use">Условия использования</h4>
+    <p data-en="The document is being prepared. What this page describes is the planned product, not the current version.">Документ готовится к публикации. То, что описано на странице, — планируемый продукт, а не текущая версия.</p>
+    <h4 data-en="Security">Безопасность</h4>
+    <p data-en="Stated principles: end-to-end encryption, isolated storage, data export and deletion on request. To be backed by documentation before launch.">Заявленные принципы: сквозное шифрование, изолированное хранение, выгрузка и удаление данных по запросу. Будут подтверждены документами до запуска.</p>
+    <h4 data-en="Contact">Связаться</h4>
+    <p data-en="For now the only channel is the early-access app.">Пока единственный канал — приложение раннего доступа.</p>
+    <a class="legal-link" href="https://health-coach-theta.vercel.app" target="_blank" rel="noopener noreferrer" data-en="Open the app →">Открыть приложение →</a>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -2063,6 +2131,83 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:
         if (wasRunning) start();
         else if (reduceMotion){ running = true; step(); running = false; }
       }, 180);
+    });
+  })();
+
+  /* ============================================================
+     LANGUAGE SWITCH — ru is the page default, en lives in data-en
+     ============================================================ */
+  (function(){
+    var KEY = 'plus-life-lang';
+    var TITLE = {
+      ru: '+Life — операционная система здоровья и самочувствия',
+      en: '+Life — Personal Health & Wellbeing OS'
+    };
+    var HINT = { ru: 'Переключить на English', en: 'Switch to Russian' };
+    var btn   = document.getElementById('langToggle');
+    var code  = document.getElementById('langCode');
+    var nodes = document.querySelectorAll('[data-en]');
+    var labels = document.querySelectorAll('[data-en-aria-label]');
+    var cur = 'ru';
+
+    nodes.forEach(function(el){ el.setAttribute('data-ru', el.innerHTML); });
+    labels.forEach(function(el){ el.setAttribute('data-ru-aria-label', el.getAttribute('aria-label') || ''); });
+
+    function apply(lang){
+      cur = (lang === 'en') ? 'en' : 'ru';
+      var attr = (cur === 'en') ? 'data-en' : 'data-ru';
+      nodes.forEach(function(el){
+        var v = el.getAttribute(attr);
+        if (v !== null) el.innerHTML = v;
+      });
+      labels.forEach(function(el){
+        var v = el.getAttribute(cur === 'en' ? 'data-en-aria-label' : 'data-ru-aria-label');
+        if (v) el.setAttribute('aria-label', v);
+      });
+      document.documentElement.lang = cur;
+      document.title = TITLE[cur];
+      if (code) code.textContent = cur.toUpperCase();
+      if (btn){ btn.setAttribute('aria-label', HINT[cur]); btn.setAttribute('title', HINT[cur]); }
+    }
+
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    if (saved === 'en') apply('en');
+
+    if (btn) btn.addEventListener('click', function(){
+      var next = (cur === 'ru') ? 'en' : 'ru';
+      apply(next);
+      try { localStorage.setItem(KEY, next); } catch(e){}
+    });
+  })();
+
+  /* ============================================================
+     DOCUMENTS OVERLAY
+     ============================================================ */
+  (function(){
+    var box = document.getElementById('legal');
+    if (!box) return;
+    var closeBtn = document.getElementById('legalClose');
+    var origin = null;
+
+    function open(e){
+      if (e) e.preventDefault();
+      origin = document.activeElement;
+      box.hidden = false;
+      if (closeBtn) closeBtn.focus();
+    }
+    function close(){
+      box.hidden = true;
+      if (origin && origin.focus) origin.focus();
+    }
+
+    document.querySelectorAll('[data-legal]').forEach(function(a){
+      a.addEventListener('click', open);
+    });
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    box.addEventListener('click', function(e){ if (e.target === box) close(); });
+    document.addEventListener('keydown', function(e){
+      if ((e.key === 'Escape' || e.key === 'Esc') && !box.hidden) close();
     });
   })();
 
